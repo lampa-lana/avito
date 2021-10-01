@@ -49,4 +49,4 @@ class Post(models.Model):
         self.save()
 
     def __str__(self) -> str:
-        return '{}, publication date {}, {}, {}'.format(self.author.username, self.date_pub, self.post_name, self.price)
+        return '{}, publication date {}, {}, {}, category{}'.format(self.author.username, self.date_pub, self.post_name, self.price, self.category)
