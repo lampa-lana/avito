@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    {% for item in posts %}
+    <div>
+      <p> <h2>Наименование товара: {{ item.post_name }}</h2></p>
+      <p>Более подробно: {{ item.description }}</p>
+      <img src="#" alt="photo_item :" />{{ item.image }}
+      <p>{{ item.date_pub|date:'d-m-Y H:i' }}</p>
+      <!-- фильтр времени |date:'d-m-Y H:i' палка вертикальная обязательна!-->
+      <p> Цена товара: {{ item.price }}</p>
+      <p> <a href=""> Категория: {{ item.category }}</a></p>
+    </div>
+    <hr />
+
+    {% endfor %}
+  </body>
+</html>
