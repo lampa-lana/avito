@@ -43,7 +43,7 @@ class Category(models.Model):
         'Profile',   related_name='author', verbose_name='автор объявления')
 
     def __str__(self) -> str:
-        return '{}, {}'.format(self.category_name, self.description)
+        return '{}'.format(self.category_name)
 
     class Meta:
         verbose_name = 'категория'
