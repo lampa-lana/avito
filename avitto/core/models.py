@@ -22,7 +22,7 @@ class Profile(models.Model):
     birth_date = models.DateField(
         null=True, blank=True, verbose_name='день рождения')
     post = models.ForeignKey(
-        'Post', on_delete=models.PROTECT, null=True,  related_name='post', verbose_name='объявления пользователя')
+        'Post', on_delete=models.PROTECT, null=True, blank=True, related_name='post', verbose_name='объявления пользователя')
 
     def __str__(self) -> str:
         return str(self.user.username)
@@ -38,9 +38,9 @@ class Category(models.Model):
     description = models.TextField(
         max_length=1000, blank=True, verbose_name='описание категории')
     post = models.ManyToManyField(
-        'Post', related_name='post_category',  verbose_name='объявления пользователя')
+        'Post', related_name='post_category',  verbose_name='объявления пользователя', blank=True)
     author = models.ManyToManyField(
-        'Profile',   related_name='author', verbose_name='автор объявления')
+        'Profile',   related_name='author', verbose_name='автор объявления', blank=True)
 
     def __str__(self) -> str:
         return '{}'.format(self.category_name)
@@ -66,7 +66,7 @@ class Post(models.Model):
         default=timezone.now, verbose_name='дата изменения')  # (auto_now=True)
     price = models.IntegerField(verbose_name='цена товара')
     category = models.ForeignKey(
-        Category, on_delete=models.PROTECT, null=True,  related_name='category', verbose_name='категория товара')
+        Category, on_delete=models.PROTECT, null=True, blank=True, related_name='category', verbose_name='категория товара')
 
     def publish(self):
         self.published_date = timezone.now()

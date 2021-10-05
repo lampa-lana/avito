@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <header class="header">
+      <h1>{{ title }}</h1>
+      <h2>Добро пожаловать на сайт бесплатных объявлений</h2>
+      <a href="categorys.html">
+        {% if categorys %}
+        <ul>
+          {% for category in categorys %}
+          <li>{{ category.category_name }}</li>
+          <li>{{ category.description }}</li>
+          <hr />
+          {% endfor %}
+        </ul>
+        {% endif %}</a
+      >
+
+      <!-- <ul>
+        <li><a href="#">Электроника</a></li>
+        <li><a href="#">Транспорт</a></li>
+        <li><a href="#">Недвижимость</a></li>
+        <li><a href="#">Для дома и дачи</a></li>
+      </ul> -->
+    </header>
+    <main>
+      <section class="posts">
+        <h2>Самые последние из размещенных объявлений:</h2>
+        {% if posts %}
+        <ul>
+          {% for post in posts %}
+          <li>{{ post.post_name }}</li>
+          <li>{{ post.category }}</li>
+          <li>{{ post.description }}</li>
+          <li><img src="{{ post.image.url }}" alt="" /></li>
+          <li>{{ post.date_edit }}</li>
+          <li>{{ post.price }} рублей</li>
+          <li>Продавец: {{ post.author }}</li>
+          <hr />
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>
