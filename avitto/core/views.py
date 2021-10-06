@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.db.models.aggregates import Sum
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from .models import Post, Category, Profile
 
@@ -8,23 +9,31 @@ from .models import Post, Category, Profile
 def index(request):
     # Post.objects.order_by('-date_edit') сортировка в обратном порядке по даде изменения публикации
     posts = Post.objects.all().order_by('-date_edit')[:7]
-    categorys = Category.objects.all()
+    categories = Category.objects.all()
     context = {
         'posts': posts,
-        'categorys': categorys,
-        'title': "avitto"}
+        'categories': categories,
+        'title': "avitto", }
     return render(request, template_name='core/index.html', context=context)
     # return HttpResponse('Hello world!')
 
 
 def all_posts(request):
     # все посты
-    return HttpResponse('all_posts')
+    posts = Post.objects.all().order_by('category')
+    context = {
+        'posts': posts,
+        'title': "Все объявления"}
+    return render(request, template_name='core/all_posts.html', context=context)
 
 
 def post_detail(request, post_id):
     # детали поста
-    return HttpResponse('post_detail')
+    post = get_object_or_404(Post, id=post_id)
+    context = {
+        'post': post,
+        'title': ("Подробнее об: {}".format(post.post_name))}
+    return render(request, template_name='core/post_detail.html', context=context)
 
 
 def post_edit(request, post_id):
@@ -32,13 +41,21 @@ def post_edit(request, post_id):
     return HttpResponse('post_edit')
 
 
-# def category_detail(request):
-#     return HttpResponse('category_detail')
-
-
-def category_detail(request):
-    categorys = Category.objects.all()
+def category_detail(request, category_id):
+    posts = Post.objects.filter(category_id=category_id)
+    categories = Category.objects.all()
+    category = Category.objects.get(pk=category_id)
     context = {
-        'categorys': categorys,
-        'title': "categorys"}
-    return render(request, template_name='core/categorys.html', context=context)
+        'posts': posts,
+        'categories': categories,
+        'category': category,
+        'title': "Побробнее о категориях", }
+    return render(request, template_name='core/cat_detail.html', context=context)
+
+
+def category_all(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories,
+        'title': "Категории", }
+    return render(request, template_name='core/categories.html', context=context)

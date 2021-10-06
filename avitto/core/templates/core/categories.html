@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      <h1>Категории в которых Вы можете создать свои объявления</h1>
+      <a href="/" class="all-category"> Назад на главную страницу </a>
+      <section class="category">
+        {% if categories %}
+        <ul>
+          {% for category in categories %}
+          <li>
+            <a href="/category/{{ category.id }}">{{category.category_name}}</a>
+          </li>
+          {% endfor %}
+          <hr />
+        </ul>
+        {% endif %}
+      </section>
+    </header>
+    <main></main>
+    -->
+    <!--  /MAIN
+    <footer></footer>
+    <!--  /foooter -->
+  </body>
+</html>

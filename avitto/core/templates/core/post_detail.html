@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      <h1>Подробнее об оъявлении:</h1>
+    </header>
+    <main>
+      <section>
+        <h2>{{ post.post_name }}</h2>
+        <ul>
+          <li>Категория объявления: {{ post.category }}</li>
+          <li>Подробнее: {{ post.description|linebreaks }}</li>
+          <li><img src="{{ post.image.url }}" alt="{{ post.post_name}}" /></li>
+          <li>Дата публикации: {{ post.date_pub }}</li>
+          <li>Дата последнего изменения: {{ post.date_edit }}</li>
+          <li>Объявление изменялось {{ post.date_edit|timesince }} назад</li>
+          <li>Стоимость: {{ post.price }} рублей</li>
+          <li>Продавец: {{ post.author }}</li>
+        </ul>
+      </section>
+    </main>
+    <!--  /MAIN -->
+    <footer></footer>
+    <!--  /foooter -->
+  </body>
+</html>

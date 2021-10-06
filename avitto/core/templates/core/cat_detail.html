@@ -4,19 +4,19 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}}</title>
+    <title>{{ category.category_name }}</title>
   </head>
   <body>
-    <header class="header">
-      <h1>{{ title }}</h1>
-      <h2>Добро пожаловать на сайт бесплатных объявлений</h2>
-      <section class="category">
-        <a href="category/" class="all-category"
-          >Перейти к просмотру всех категорий</a
-        >
+    <header>
+      <h1>Подробнее о категории:</h1>
+       <section class="category">
+        <a href="/" class="all-category">
+          Назад на главную страницу
+          </a>
         {% if categories %}
         <ul>
           {% for category in categories %}
+         
           <li>
             <a href="/category/{{ category.id }}/"
               >{{ category.category_name }}</a
@@ -28,35 +28,29 @@
           <hr />
         </ul>
         {% endif %}
-      </section>
-      <a href="posts/all_posts/" class="posts"
-        >Перейти к просмотру всех объявлений</a
-      >
     </header>
-    <!--  /HEADER -->
-    <main>
+  <main>
       <section class="posts">
         <h2>Самые последние из размещенных объявлений:</h2>
         {% if posts %}
         <ul>
-          {% for post in posts %}
+          {% for post in posts %} 
+          <h2>Категория объявления: {{post.category}}</h2>            
           <li>
-            <a href="/posts/{{ post.id }}/"
-              >Наименование: {{ post.post_name }}</a
-            >
+            
+            <a href="/posts/{{ post.id }}/">Более подробно:{{ post.post_name }}</a>
           </li>
           <li><img src="{{ post.image.url }}" alt="{{ post.post_name}}" /></li>
           <li>Дата последнего изменения: {{ post.date_edit }}</li>
           <li>Стоимость: {{ post.price }} рублей</li>
-          <li>Категория объявления: {{post.category}}</li>
+         
           <hr />
+          
           {% endfor %}
         </ul>
         {% endif %}
       </section>
     </main>
-    <!--  /MAIN -->
     <footer></footer>
-    <!--  /foooter -->
   </body>
 </html>
