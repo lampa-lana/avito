@@ -37,10 +37,10 @@ class Category(models.Model):
         max_length=100, verbose_name='наименование категории', db_index=True)
     description = models.TextField(
         max_length=1000, blank=True, verbose_name='описание категории')
-    post = models.ManyToManyField(
-        'Post', related_name='post_category',  verbose_name='объявления пользователя', blank=True)
-    author = models.ManyToManyField(
-        'Profile',   related_name='author', verbose_name='автор объявления', blank=True)
+    # post = models.ManyToManyField(
+    #     'Post', related_name='post_category',  verbose_name='объявления пользователя', blank=True)
+    # author = models.ManyToManyField(
+    #     'Profile',   related_name='author', verbose_name='автор объявления', blank=True)
 
     def __str__(self) -> str:
         return '{}'.format(self.category_name)
