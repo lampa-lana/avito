@@ -15,9 +15,9 @@ class PostForm(forms.ModelForm):
             'post_name': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Продам что-нибудь'}),
             'description': forms.Textarea(attrs={'class': 'post-text', 'placeholder': 'Подробнее, о том что продаю'}),
             'image': forms.ClearableFileInput(attrs={'class': 'post-image', }),
-            'date_pub': forms.SplitDateTimeWidget(attrs={'class': 'post-image', }),
-            'price': forms.NumberInput(attrs={'class': 'post-image', }),
-            # 'category': forms.inpu(attrs={'class': 'post-image', }),
+            # 'date_pub': forms.SplitDateTimeWidget(attrs={'class': 'post-image', }),
+            'price': forms.NumberInput(attrs={'class': 'post-price', }),
+
         }
 
     def clean_post_name(self):
