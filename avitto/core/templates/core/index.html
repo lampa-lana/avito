@@ -11,14 +11,14 @@
       <h1>{{ title }}</h1>
       <h2>Добро пожаловать на сайт бесплатных объявлений</h2>
       <section class="category">
-        <a href="category/" class="all-category"
+        <a href="{% url 'core:category_all' %}" class="all-category"
           >Перейти к просмотру всех категорий</a
         >
         {% if categories %}
         <ul>
           {% for category in categories %}
           <li>
-            <a href="/category/{{ category.id }}/"
+            <a href="{% url 'core:category_detail' category.id %}"
               >{{ category.category_name }}</a
             >
           </li>
@@ -29,8 +29,12 @@
         </ul>
         {% endif %}
       </section>
-      <a href="posts/all_posts/" class="posts"
+      <a href="{% url 'core:all_posts' %}" class="posts"
         >Перейти к просмотру всех объявлений</a
+      >
+      <hr />
+      <a href="{% url 'core:post_create' %}" class="post-create"
+        >создать объявление</a
       >
     </header>
     <!--  /HEADER -->
@@ -41,11 +45,11 @@
         <ul>
           {% for post in posts %}
           <li>
-            <a href="/posts/{{ post.id }}/"
+            <a href="{% url 'core:post_detail' post.id %}"
               >Наименование: {{ post.post_name }}</a
             >
           </li>
-          <li><img src="{{ post.image.url }}" alt="{{ post.post_name}}" /></li>
+          <li><img src="{{ post.image_url }}" alt="{{ post.post_name}}" /></li>
           <li>Дата последнего изменения: {{ post.date_edit }}</li>
           <li>Стоимость: {{ post.price }} рублей</li>
           <li>Категория объявления: {{post.category}}</li>

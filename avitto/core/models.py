@@ -75,6 +75,13 @@ class Post(models.Model):
     def __str__(self) -> str:
         return 'Категория: {}  (Пользователь: {}  дата публикации: {}   {}   цена: {})'.format(self.category.category_name, self.author.username, self.date_pub, self.post_name, self.price,)
 
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+        else:
+            return '#'
+
     class Meta:
         verbose_name = 'объявление'
         verbose_name_plural = 'список объявлений'

@@ -18,7 +18,7 @@
           {% for category in categories %}
          
           <li>
-            <a href="/category/{{ category.id }}/"
+            <a href="{% url 'core:category_detail' category.id %}"
               >{{ category.category_name }}</a
             >
           </li>
@@ -38,9 +38,9 @@
           <h2>Категория объявления: {{post.category}}</h2>            
           <li>
             
-            <a href="/posts/{{ post.id }}/">Более подробно:{{ post.post_name }}</a>
+            <a href="{% url 'core:post_detail' post.id %}">Более подробно:{{ post.post_name }}</a>
           </li>
-          <li><img src="{{ post.image.url }}" alt="{{ post.post_name}}" /></li>
+          <li><img src="{{ post.image_url }}" alt="{{ post.post_name}}" /></li>
           <li>Дата последнего изменения: {{ post.date_edit }}</li>
           <li>Стоимость: {{ post.price }} рублей</li>
          
