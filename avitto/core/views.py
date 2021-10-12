@@ -1,11 +1,13 @@
 from django.db.models.aggregates import Sum
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template import Context, loader
 from django.http import HttpResponse
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
 from .models import Post, Category, Profile
 from .forms import PostForm
 
@@ -16,9 +18,11 @@ class IndexView(ListView):
     model = Post
     template_name = 'core/index.html'
     context_object_name = 'posts'
+    posts = model.objects.all().order_by('-date_edit')[:7]
+    categories = Category.objects.all()
 
     def get_queryset(self):
-        return self.model.objects.all().order_by('-date_edit')[:7]
+        return self.posts
 
 
 # def index(request):
@@ -47,14 +51,26 @@ class AllPostView(IndexView):
 #         'title': "Все объявления"}
 #     return render(request, template_name='core/all_posts.html', context=context)
 
+class PostDetailView(DetailView):
+    model = Post
+    pk_url_kwarg = "post_id"
+    template_name = 'core/post_detail.html'
 
-def post_detail(request, post_id):
-    # детали поста
-    post = get_object_or_404(Post, id=post_id)
-    context = {
-        'post': post,
-        'title': ("Подробнее об: {}".format(post.post_name))}
-    return render(request, template_name='core/post_detail.html', context=context)
+    def get(self, request, post_id, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        context['categories'] = Category.objects.all()
+
+        return self.render_to_response(context)
+
+
+# def post_detail(request, post_id):
+#     # детали поста
+#     post = get_object_or_404(Post, id=post_id)
+#     context = {
+#         'post': post,
+#         'title': ("Подробнее об: {}".format(post.post_name))}
+#     return render(request, template_name='core/post_detail.html', context=context)
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -112,16 +128,30 @@ class EditView(UpdateView):
         return reverse('core:post_detail', args=(post_id, ))
 
 
-def category_detail(request, category_id):
-    posts = Post.objects.filter(category_id=category_id)
-    categories = Category.objects.all()
-    category = Category.objects.get(pk=category_id)
-    context = {
-        'posts': posts,
-        'categories': categories,
-        'category': category,
-        'title': "Побробнее о категориях", }
-    return render(request, template_name='core/cat_detail.html', context=context)
+class CategoriesDetailView(DetailView):
+    model = Category
+    pk_url_kwarg = "category_id"
+    template_name = 'core/cat_detail.html'
+
+    def get(self, request, category_id, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        context['posts'] = Post.objects.filter(category_id=category_id)
+        context['category'] = Category.objects.get(pk=category_id)
+
+        return self.render_to_response(context)
+
+
+# def category_detail(request, category_id):
+#     posts = Post.objects.filter(category_id=category_id)
+#     categories = Category.objects.all()
+#     category = Category.objects.get(pk=category_id)
+#     context = {
+#         'posts': posts,
+#         'categories': categories,
+#         'category': category,
+#         'title': "Побробнее о категориях", }
+#     return render(request, template_name='core/cat_detail.html', context=context)
 
 
 class AllCategoryView(ListView):

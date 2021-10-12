@@ -13,6 +13,19 @@
     </header>
     <main>
       <section>
+        <ul>
+          {% for category in categories %}
+          <li>
+            <a href="{% url 'core:category_detail' category.id %}"
+              >{{ category.category_name }}</a
+            >
+          </li>
+          <li>{{ category.description }}</li>
+          <hr />
+          {% endfor %}
+        </ul>
+      </section>
+      <section>
         <h2>{{ post.post_name }}</h2>
         <ul>
           <li>Категория объявления: {{ post.category }}</li>

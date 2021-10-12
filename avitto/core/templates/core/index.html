@@ -14,7 +14,7 @@
         <a href="{% url 'core:category_all' %}" class="all-category"
           >Перейти к просмотру всех категорий</a
         >
-        {% if categories %}
+
         <ul>
           {% for category in categories %}
           <li>
@@ -27,7 +27,6 @@
           {% endfor %}
           <hr />
         </ul>
-        {% endif %}
       </section>
       <a href="{% url 'core:all_posts' %}" class="posts"
         >Перейти к просмотру всех объявлений</a
