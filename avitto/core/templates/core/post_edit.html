@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Редактирование объявления</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <section>
+        {% if post.author == user %}
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{form}}
+          <button type="submit">обновить объявление</button>
+        </form>
+        {% else %}
+        <h2>Вы не можете редактировать это объявление!!</h2>
+        <hr />
+        {% endif %}
+        <a href="{% url 'core:index' %}"> На главную</a>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

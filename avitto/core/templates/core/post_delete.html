@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Удалить объявление</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <section>
+        {% if post.author == user %}
+        <form method="POST">
+          {% csrf_token %}
+          <button type="submit">Удалить объявление</button>
+        </form>
+        <a href="{% url 'core:post_detail' post.id %}"> Просмотр объявления</a>
+        {% else %}
+        <h2>Вы не можете удалить объявление!!</h2>
+        <a href="{% url 'core:post_detail' post.id %}"> Просмотр объявления</a>
+        <hr />
+        <a href="{% url 'core:index' %}"> На главную</a>
+        {% endif %}
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

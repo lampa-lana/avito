@@ -8,6 +8,7 @@
   </head>
   <body>
     <header>
+      <a href="{% url 'core:index' %}"> На главную </a>
       <h1>Подробнее об оъявлении:</h1>
     </header>
     <main>
@@ -23,6 +24,9 @@
           <li>Стоимость: {{ post.price }} рублей</li>
           <li>Продавец: {{ post.author }}</li>
         </ul>
+        <a href="{% url 'core:post_edit' post.id%}">редактировать объявление</a>
+        <hr />
+        <a href="{% url 'core:post_delete' post.id%}">удалить объявление</a>
       </section>
     </main>
     <!--  /MAIN -->
