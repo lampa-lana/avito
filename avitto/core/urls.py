@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from .views import (CategoriesDetailView,
                     IndexView, AllPostView, PostCreateView, AllCategoryView, PostDelete, EditView, PostDetailView)
 
+from .urls_auth import urlpatterns as auth_patterns
 app_name = 'core'
 
 urlpatterns = [
@@ -20,3 +21,5 @@ urlpatterns = [
     path('category/<int:category_id>/',
          CategoriesDetailView.as_view(), name='category_detail'),
 ]
+
+urlpatterns += auth_patterns
