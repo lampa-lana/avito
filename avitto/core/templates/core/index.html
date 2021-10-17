@@ -2,13 +2,14 @@
  {% block title %}
     <title>Главная</title>
   {% endblock title %}  
-   <p>{%block content %}          
-      <h1 class="title_page">
+   <p>{%block content %}
+     
+   
+     <h1 class="title_page">
           Добро пожаловать на сайт бесплатных объявлений
       </h1> 
       <h2>Самые последние из размещенных объявлений:</h2>              
-      <section class="posts">
-        
+      <section class="posts">        
         {% if posts %}
         <ul class="posts_list">
           {% for post in posts %}
@@ -19,15 +20,15 @@
                <p>Дата последнего изменения: {{ post.date_edit }}</p>
                <p>Стоимость: {{ post.price }} рублей</p>
                <p>Категория объявления: {{post.category}}</p>
-            </a>
-            
-           </li>
-               
+            </a>            
+           </li>               
           {% endfor %}
         </ul>
         {% endif %}
-      </section>   
-    <footer></footer>
-    <!--  /foooter -->
+      </section>  
+     {% for i in categories %}
+     <p>{{ category_name }}</p>
+     {% endfor %}
+     
 {% endblock content%}</p>
 

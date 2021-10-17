@@ -19,10 +19,15 @@ class IndexView(ListView):
     model = Post
     template_name = 'core/index.html'
     context_object_name = 'posts'
-    posts = model.objects.all().order_by('-date_edit')[:7]
+    # extra_context = {'page_title': '7 last posts'}
 
     def get_queryset(self):
-        return self.posts
+        return self.model.objects.all().order_by('-date_edit')[:7]
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(IndexView, self).get_context_data(**kwargs)
+    #     context['categories'] = Category.objects.all()
+    #     return context
 
 
 # def index(request):
