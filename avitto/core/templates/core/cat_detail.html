@@ -3,11 +3,8 @@
 {% endblock title %}
 <p>{%block content %}
   <header>
-      <h1>Подробнее о категории:</h1>
-       <section class="category">
-        <a href="/" class="all-category">
-          Назад на главную страницу
-          </a>
+     
+       <section class="category">       
         {% if categories %}
         <ul>
           {% for category in categories %}
@@ -26,14 +23,13 @@
     </header>
   <main>
       <section class="posts">
-        <h2>Самые последние из размещенных объявлений:</h2>
+        <h2>Самые последние из размещенных объявлений из категории: </h2>
         {% if posts %}
         <ul>
           {% for post in posts %} 
-          <h2>Категория объявления: {{post.category}}</h2>            
-          <li>
-            
-            <a href="{% url 'core:post_detail' post.id %}">Более подробно:{{ post.post_name }}</a>
+          <h2>{{post.category}}</h2>            
+          <li>            
+            <a href="{% url 'core:post_detail' post.id %}">Более подробно: {{ post.post_name }}</a>
           </li>
           <li><img src="{{ post.image_url }}" alt="{{ post.post_name}}" /></li>
           <li>Дата последнего изменения: {{ post.date_edit }}</li>

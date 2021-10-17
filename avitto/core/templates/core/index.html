@@ -2,7 +2,10 @@
  {% block title %}
     <title>Главная</title>
   {% endblock title %}  
-   <p>{%block content %}          
+   <p>{%block content %}   
+       <h1 class="header-title">
+          Добро пожаловать на сайт бесплатных объявлений
+        </h1>       
         <ul>
           {% for category in categories %}
           <li>
@@ -14,17 +17,8 @@
           <hr />
           {% endfor %}
           <hr />
-        </ul>
-     
-      <a href="{% url 'core:all_posts' %}" class="posts"
-        >Перейти к просмотру всех объявлений</a
-      >
-      <hr />
-      <a href="{% url 'core:post_create' %}" class="post-create"
-        >Cоздать объявление</a
-      >
-  
-    <!--  /HEADER -->
+        </ul>   
+    
     <main>
       <section class="posts">
         <h2>Самые последние из размещенных объявлений:</h2>

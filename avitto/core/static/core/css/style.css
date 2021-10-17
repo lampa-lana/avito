@@ -11,12 +11,22 @@ body {
   font-size: 16px;
   line-height: 22px;
   color: #1e0606;
-  background: rgba(237, 236, 252, 0.575);
+  background-color: white;
 }
 
 img {
   display: block;
   width: 25%;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul li {
+  display: block;
+  text-decoration: none;
+  list-style: none;
 }
 
 aside {
@@ -27,8 +37,7 @@ aside {
   position: fixed;
   z-index: 5;
 
-  color: rgb(239, 241, 243);
-  border-right: 2px solid rgba(35, 14, 138, 0.719);
+  color: rgb(42, 116, 190);
 }
 
 aside img {
@@ -47,14 +56,16 @@ main {
 }
 
 aside ul li {
-  list-style: none;
   margin-bottom: 20px;
   color: rgba(48, 31, 196, 0.774);
 }
 
 aside ul a {
-  text-decoration: none;
+  display: block;
+  background: #cfaf91;
+  padding: 10px;
 }
+
 aside ul li i {
   margin-right: 10px;
 }
@@ -63,11 +74,5 @@ aside ul li i {
   margin: 0;
   margin: auto;
   margin-bottom: 50px;
-
   width: 1140px;
-}
-
-header a {
-  margin-left: 300px;
-  text-decoration: none;
 }

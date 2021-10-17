@@ -21,33 +21,38 @@
   <body>
     <header class="header">
       <aside>
-      <img src="{% static 'core/images/logo.svg' %}" alt="logo" />
-      
-      <h3 class="aside-title">Навигация по сайту</h3>
-      <ul>
-        <a href="">
-          <li><i class="fas fa-home"></i>Главная страница</li>
-        </a>
-        <a href="">
-          <li><i class="fas fa-campground"></i></i>Категории</li>
-        </a>
-        <a href="">
-          <li><i class="fas fa-address-card"></i>Создать объявление</li>
-        </a>
-        <a href="">
-          <li><i class="far fa-address-card"></i>Удалить объявление</li>
-        </a>
-        <a href="">
-          <li><i class="fas fa-user"></i>Личный кабинет</li>
-        </a>
-      </ul>
-     </aside>
-     <section class="container"> 
-      <h1 class="header-title">Добро пожаловать на сайт бесплатных объявлений</h1>
-      <a href="{% url 'core:category_all' %}" class="all-category"
-          >Перейти к просмотру всех категорий</a>
-      </section>
-    </header>   
+        <img src="{% static 'core/images/logo.svg' %}" alt="logo" />
+
+        <h3 class="aside-title">Навигация по сайту</h3>
+        <ul>
+          <li>
+            <a href="{% url 'core:index' %}"
+              ><i class="fas fa-home"></i>Главная страница</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'core:category_all' %}"
+              ><i class="fas fa-campground"></i>Категории</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'core:all_posts' %}"
+              ><i class="fas fa-mail-bulk"></i>Все объявления</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'core:post_create' %}"
+              ><i class="fas fa-folder-plus"></i>Создать объявление</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'core:login' %}"
+              ><i class="fas fa-user"></i>Личный кабинет</a
+            >
+          </li>
+        </ul>
+      </aside>
+    </header>
     <main>{% block content %} {% endblock content %}</main>
   </body>
 </html>
