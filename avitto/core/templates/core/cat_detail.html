@@ -2,45 +2,45 @@
 <title>Побробнее о категории</title>
 {% endblock title %}
 <p>{%block content %}
-  <header>
-     
-       <section class="category">       
-        {% if categories %}
+  
+  <section class="category_det-main">
+    <article class="category_posts">{% if categories %}
         <ul>
           {% for category in categories %}
-         
           <li>
             <a href="{% url 'core:category_detail' category.id %}"
-              >{{ category.category_name }}</a
+              >{{ category.category_name|linebreaks }}</a
             >
           </li>
-          <li>{{ category.description }}</li>
-          <hr />
-          {% endfor %}
-          <hr />
+          {% endfor %}         
         </ul>
-        {% endif %}
-    </header>
-  <main>
-      <section class="posts">
+      {% endif %}
+    </article>    
+    <article class="posts">
         <h2>Самые последние из размещенных объявлений из категории: </h2>
-        {% if posts %}
-        <ul>
-          {% for post in posts %} 
-          <h2>{{post.category}}</h2>            
-          <li>            
-            <a href="{% url 'core:post_detail' post.id %}">Более подробно: {{ post.post_name }}</a>
-          </li>
-          <li><img src="{{ post.image_url }}" alt="{{ post.post_name}}" /></li>
-          <li>Дата последнего изменения: {{ post.date_edit }}</li>
-          <li>Стоимость: {{ post.price }} рублей</li>
-         
-          <hr />
-          
+        <p><a href="{% url 'core:category_detail' category.id %}"
+              >{{ category.category_name }}</a
+            ></p>
+        <p><a href="{% url 'core:category_detail' category.id %}"
+              >{{ category.description }}</a
+            >    </p>
+        
+         {% if posts %}
+        <ul class="posts_list">
+          {% for post in posts %}
+           <li>
+            <a href="{% url 'core:post_detail' post.id %}">
+               <p> {{ post.post_name }}</p>
+               <img src="{{ post.image_url }}" alt="{{ post.post_name}}" />
+               <p>Дата последнего изменения: {{ post.date_edit }}</p>
+               <p>Стоимость: {{ post.price }} рублей</p>
+               <p>Категория объявления: {{post.category}}</p>
+            </a>            
+           </li>               
           {% endfor %}
         </ul>
         {% endif %}
-      </section>
-    </main>
-    <footer></footer>
-   {% endblock content%}</p>
+    </article>
+  </section>
+   
+{% endblock content%}</p>

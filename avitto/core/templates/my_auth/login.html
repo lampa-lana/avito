@@ -2,26 +2,21 @@
 <title>Категории</title>
 {% endblock title %}
 <p>{%block content %} 
-   <header>
-      <h1>Вход в личный кабинет</h1>
-      <hr />
-    </header>
-    <main>
-      <section>
-        {% if not user.is_authenticated %}
-        <form method="post">
-          {% csrf_token %} {% for field in form %}
-          <p>{{ field.label }}</p>
-          <p>{{ field }}</p>
-          <p>{{ field.error }}</p>
-          {% endfor %}
-
-          <button type="submit">ВОЙТИ</button>
-        </form>
-        {% else %}
-        <h2>Добро пожаловать {{ user.username }}</h2>
-        {% endif %}
-      </section>
-    </main>
-    <footer></footer>
-  {% endblock content%}</p>
+  <h1>Вход в личный кабинет</h1>
+    <hr />
+    <section>
+      {% if not user.is_authenticated %}
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <p>{{ field.label }}</p>
+        <p>{{ field }}</p>
+        <p>{{ field.error }}</p>
+      {% endfor %}
+       <button type="submit" class="button">ВОЙТИ</button>
+      </form>
+    {% else %}
+    <h2>Добро пожаловать {{ user.username }}</h2>
+    {% endif %}
+  </section>    
+{% endblock content%}</p>

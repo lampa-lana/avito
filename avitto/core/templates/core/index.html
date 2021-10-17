@@ -2,45 +2,31 @@
  {% block title %}
     <title>Главная</title>
   {% endblock title %}  
-   <p>{%block content %}   
-       <h1 class="header-title">
+   <p>{%block content %}          
+      <h1 class="title_page">
           Добро пожаловать на сайт бесплатных объявлений
-        </h1>       
-        <ul>
-          {% for category in categories %}
-          <li>
-            <a href="{% url 'core:category_detail' category.id %}"
-              >{{ category.category_name }}</a
-            >
-          </li>
-          <li>{{ category.description }}</li>
-          <hr />
-          {% endfor %}
-          <hr />
-        </ul>   
-    
-    <main>
+      </h1> 
+      <h2>Самые последние из размещенных объявлений:</h2>              
       <section class="posts">
-        <h2>Самые последние из размещенных объявлений:</h2>
+        
         {% if posts %}
-        <ul>
+        <ul class="posts_list">
           {% for post in posts %}
-          <li>
-            <a href="{% url 'core:post_detail' post.id %}"
-              >Наименование: {{ post.post_name }}</a
-            >
-          </li>
-          <li><img src="{{ post.image_url }}" alt="{{ post.post_name}}" /></li>
-          <li>Дата последнего изменения: {{ post.date_edit }}</li>
-          <li>Стоимость: {{ post.price }} рублей</li>
-          <li>Категория объявления: {{post.category}}</li>
-          <hr />
+           <li>
+            <a href="{% url 'core:post_detail' post.id %}">
+               <p> {{ post.post_name }}</p>
+               <img src="{{ post.image_url }}" alt="{{ post.post_name}}" />
+               <p>Дата последнего изменения: {{ post.date_edit }}</p>
+               <p>Стоимость: {{ post.price }} рублей</p>
+               <p>Категория объявления: {{post.category}}</p>
+            </a>
+            
+           </li>
+               
           {% endfor %}
         </ul>
         {% endif %}
-      </section>
-    </main>
-    <!--  /MAIN -->
+      </section>   
     <footer></footer>
     <!--  /foooter -->
 {% endblock content%}</p>

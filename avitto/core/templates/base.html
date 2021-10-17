@@ -20,9 +20,20 @@
   </head>
   <body>
     <header class="header">
-      <aside>
+      <a href="{% url 'core:index' %}" class="logo">
         <img src="{% static 'core/images/logo.svg' %}" alt="logo" />
-
+      </a>
+      <ul class="header_link">
+        <li>
+          <a href="{% url 'core:login' %}"
+            ><i class="fas fa-user"></i>Личный кабинет</a
+          >
+        </li>
+        <li><a href="tel:+380985554433">Позвоните нам!</a></li>
+      </ul>
+    </header>
+    <main>
+      <aside>
         <h3 class="aside-title">Навигация по сайту</h3>
         <ul>
           <li>
@@ -45,14 +56,11 @@
               ><i class="fas fa-folder-plus"></i>Создать объявление</a
             >
           </li>
-          <li>
-            <a href="{% url 'core:login' %}"
-              ><i class="fas fa-user"></i>Личный кабинет</a
-            >
-          </li>
         </ul>
       </aside>
-    </header>
-    <main>{% block content %} {% endblock content %}</main>
+      <section class="content">
+        {% block content %} {% endblock content %}
+      </section>
+    </main>
   </body>
 </html>

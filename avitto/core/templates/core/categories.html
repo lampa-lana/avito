@@ -2,25 +2,18 @@
 <title>Категории</title>
 {% endblock title %}
 <p>{%block content %} 
-  <header>
-      <h1>Категории в которых Вы можете создать свои объявления</h1>     
+  <h1>Категории в которых Вы можете создать свои объявления</h1>     
       <section class="category">
       {% if categories %}
         <ul>
           {% for category in categories %}
           <li>
             <a href="{% url 'core:category_detail' category.id %}"
-              >{{category.category_name}}</a
+              >{{ category.category_name|linebreaks }}</a
             >
           </li>
-          {% endfor %}
-          <hr />
+          {% endfor %}         
         </ul>
       {% endif %}
       </section>
-    </header>
-    <main></main>
-    <!--  /MAIN
-    <footer></footer>
-    <!--  /foooter -->
-  {% endblock content%}</p>
+{% endblock content%}</p>
