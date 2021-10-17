@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Редактирование объявления</title>
-  </head>
-  <body>
-    <header></header>
+{% extends 'base.html' %} {% block title %}
+<title>Категории</title>
+{% endblock title %}
+<p>{%block content %} 
+ <header></header>
     <main>
       <section>
         {% if post.author == user %}
@@ -23,5 +18,4 @@
       </section>
     </main>
     <footer></footer>
-  </body>
-</html>
+  {% endblock content%}</p>

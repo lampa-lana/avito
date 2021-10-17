@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}}</title>
-  </head>
-  <body>
-    <header class="header">
-      <h1>{{ title }}</h1>
-      <h2>Добро пожаловать на сайт бесплатных объявлений</h2>
-      <section class="category">
-        <a href="{% url 'core:category_all' %}" class="all-category"
-          >Перейти к просмотру всех категорий</a
-        >
-
+{% extends 'base.html' %} 
+ {% block title %}
+    <title>Главная</title>
+  {% endblock title %}  
+   <p>{%block content %}          
         <ul>
           {% for category in categories %}
           <li>
@@ -27,15 +15,15 @@
           {% endfor %}
           <hr />
         </ul>
-      </section>
+     
       <a href="{% url 'core:all_posts' %}" class="posts"
         >Перейти к просмотру всех объявлений</a
       >
       <hr />
       <a href="{% url 'core:post_create' %}" class="post-create"
-        >создать объявление</a
+        >Cоздать объявление</a
       >
-    </header>
+  
     <!--  /HEADER -->
     <main>
       <section class="posts">
@@ -61,5 +49,5 @@
     <!--  /MAIN -->
     <footer></footer>
     <!--  /foooter -->
-  </body>
-</html>
+{% endblock content%}</p>
+

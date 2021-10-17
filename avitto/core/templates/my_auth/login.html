@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Вход в личный кабинет</title>
-  </head>
-  <body>
-    <header>
+{% extends 'base.html' %} {% block title %}
+<title>Категории</title>
+{% endblock title %}
+<p>{%block content %} 
+   <header>
       <h1>Вход в личный кабинет</h1>
       <hr />
     </header>
@@ -29,5 +24,4 @@
       </section>
     </main>
     <footer></footer>
-  </body>
-</html>
+  {% endblock content%}</p>

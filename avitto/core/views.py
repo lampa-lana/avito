@@ -1,4 +1,5 @@
 from django.db.models.aggregates import Sum
+from django.http.response import HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import Context, loader
 from django.http import HttpResponse
@@ -169,3 +170,7 @@ class AllCategoryView(ListView):
 #         'categories': categories,
 #         'title': "Категории", }
 #     return render(request, template_name='core/categories.html', context=context)
+
+
+# def pageNotFound(request, exception):
+#     return HttpResponseNotFound('<h1> Страница не найдена</h1>')
