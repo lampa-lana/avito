@@ -1,5 +1,5 @@
-from django.urls import path, include
-from .views_auth import (MyLoginView)
+from django.urls import path
+from .views_auth import MyLoginView
 
 
 # app_name = 'core'

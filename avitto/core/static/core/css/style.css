@@ -117,7 +117,9 @@ aside ul a {
   color: #fff;
 }
 
-aside ul a:hover {
+aside ul a:hover,
+.header_link li a:active {
+  color: rgb(76, 0, 255);
   transition: 0.9s ease;
   margin-left: 25px;
 }
@@ -207,34 +209,30 @@ textarea::placeholder {
   line-height: 25px;
 }
 
-.post-form {
+.form-control {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
 }
 
-.post-form input,
-.post-form textarea,
-.post-form_update input,
-.post-form_update textarea {
+input,
+textarea {
   width: 600px;
+  margin: auto;
   outline: none;
   border: 2px solid rgba(81, 45, 240, 0.075);
   margin-bottom: 20px;
 }
 
-.post-form textarea {
+textarea {
   height: 150px;
   resize: none;
 }
 
 select {
-  width: 550px;
+  width: 600px;
+  height: 50px;
   outline: none;
   border: 2px solid rgba(81, 45, 240, 0.075);
-}
-
-.post-form {
-  padding-bottom: 100px;
 }

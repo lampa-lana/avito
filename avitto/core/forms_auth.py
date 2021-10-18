@@ -1,24 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import (
-    AuthenticationForm, UsernameField, UserCreationForm
-)
-from django.db import models
+    AuthenticationForm, UsernameField, UserCreationForm)
 from django.contrib.auth.models import User
-from django.db.models import fields
-from django.forms.forms import Form
-from django.utils.translation import gettext, gettext_lazy as _
 
 
 class LoginForm(AuthenticationForm):
 
-    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 'placeholder': 'Username',
-                                                           'class': 'login-form'}))
+    username = UsernameField(
+        widget=forms.TextInput(
+            attrs={'placeholder': 'например: Fedor',
+                   'class': 'form-control', }))
 
     password = forms.CharField(
         label="Пароль",
         strip=False,
         widget=forms.PasswordInput(
-            attrs={'placeholder': 'Пароль', 'class': 'password-form'}),
+            attrs={'placeholder': 'Пароль', 'class': 'form-control'}),
     )
 
     error_messages = {
@@ -32,7 +29,7 @@ class SignUpForm(UserCreationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Пароль',
-            'class': 'login-password',
+            'class': 'form-control',
         }),
     )
 
@@ -41,7 +38,7 @@ class SignUpForm(UserCreationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Пароль',
-            'class': 'login-password',
+            'class': 'form-control',
         }),
         help_text='Введите тот же пароль, что и выше'
     )
@@ -52,7 +49,11 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['email', 'username']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Email'}),
+        }
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

@@ -19,7 +19,7 @@ class IndexView(ListView):
     model = Post
     template_name = 'core/index.html'
     context_object_name = 'posts'
-    # extra_context = {'page_title': '7 last posts'}
+    extra_context = {'page_title': 'Главная'}
 
     def get_queryset(self):
         return self.model.objects.all().order_by('-date_edit')[:7]
@@ -43,6 +43,7 @@ class IndexView(ListView):
 
 class AllPostView(IndexView):
     template_name = 'core/all_posts.html'
+    extra_context = {'page_title': 'Все объявления'}
 
     def get_queryset(self):
         return self.model.objects.all().order_by('category')
@@ -60,6 +61,7 @@ class PostDetailView(DetailView):
     model = Post
     pk_url_kwarg = "post_id"
     template_name = 'core/post_detail.html'
+    extra_context = {'page_title': 'Подробнее об объявлении'}
 
     def get(self, request, post_id, *args, **kwargs):
         self.object = self.get_object()
@@ -82,6 +84,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     form_class = PostForm
     template_name = 'core/post_create.html'
     login_url = '/admin/login'
+    extra_context = {'page_title': 'Создать объявление'}
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -116,6 +119,7 @@ class PostDelete(DeleteView):
     model = Post
     pk_url_kwarg = 'post_id'
     template_name = 'core/post_delete.html'
+    extra_context = {'page_title': 'Удалить объявление'}
 
     def get_success_url(self):
         post_id = self.kwargs['post_id']
@@ -127,6 +131,7 @@ class EditView(UpdateView):
     pk_url_kwarg = 'post_id'
     template_name = 'core/post_edit.html'
     form_class = PostForm
+    extra_context = {'page_title': 'Изменить объявление'}
 
     def get_success_url(self):
         post_id = self.kwargs['post_id']
@@ -137,6 +142,7 @@ class CategoriesDetailView(DetailView):
     model = Category
     pk_url_kwarg = "category_id"
     template_name = 'core/cat_detail.html'
+    extra_context = {'page_title': 'Об категории'}
 
     def get(self, request, category_id, *args, **kwargs):
         self.object = self.get_object()
@@ -164,6 +170,7 @@ class AllCategoryView(ListView):
     model = Category
     template_name = 'core/categories.html'
     context_object_name = 'categories'
+    extra_context = {'page_title': 'Категории'}
 
     def get_queryset(self):
         return self.model.objects.all()
