@@ -2,9 +2,7 @@
  {% block title %}
     <title>{{page_title}}</title>
   {% endblock title %}  
-   <p>{%block content %}
-     
-   
+   <p>{%block content %}     
      <h1 class="title_page">
           Добро пожаловать на сайт бесплатных объявлений
       </h1> 
@@ -25,10 +23,6 @@
           {% endfor %}
         </ul>
         {% endif %}
-      </section>  
-     {% for i in categories %}
-     <p>{{ category_name }}</p>
-     {% endfor %}
-     
+      </section>       
 {% endblock content%}</p>
 

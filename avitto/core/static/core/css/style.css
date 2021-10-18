@@ -36,7 +36,8 @@ a {
   padding: 0 60px;
 }
 
-.header_link {
+.header_link,
+.header_link-cat {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,7 +47,8 @@ a {
   cursor: pointer;
 }
 
-.header_link a {
+.header_link a,
+.header_link-cat a {
   margin: 0;
   padding: 0;
   color: #fff;
@@ -54,7 +56,9 @@ a {
 }
 
 .header_link li a:hover,
-.header_link li a:active {
+.header_link li a:active,
+.header_link-cat a:hover,
+.header_link-cat a:active {
   color: rgb(76, 0, 255);
 }
 
@@ -83,6 +87,7 @@ a {
 .header ul li i {
   margin-right: 10px;
 }
+
 ul li {
   display: block;
   text-decoration: none;

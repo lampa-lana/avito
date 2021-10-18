@@ -14,15 +14,21 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
     />
-    {% block title %}
-    <title></title>
-    {% endblock title %}
+    {% block title %} {% endblock title %}
   </head>
   <body>
     <header class="header">
       <a href="{% url 'core:index' %}" class="logo">
         <img src="{% static 'core/images/logo.svg' %}" alt="logo" />
       </a>
+      <ul class="header_link-cat">
+        <li>
+          <a href="{% url 'core:category_detail' 3 %}">Для дома и дачи</a>
+        </li>
+        <li><a href="{% url 'core:category_detail' 2 %}">Недвижимость</a></li>
+        <li><a href="{% url 'core:category_detail' 1 %}">Транспорт</a></li>
+        <li><a href="{% url 'core:category_detail' 4 %}">Электроника</a></li>
+      </ul>
       <ul class="header_link">
         <li>
           <a href="{% url 'core:login' %}"
