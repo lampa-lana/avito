@@ -26,7 +26,8 @@
       <li>Дата последнего изменения: {{ post.date_edit }}</li>
       <li>Объявление изменялось {{ post.date_edit|timesince }} назад</li>
       <li>Стоимость: {{ post.price }} рублей</li>
-      <li>Продавец: {{ post.author }}</li>
+       <a href="{% url 'core:profile' post.author.id %}">Продавец: {{post.author.username}} </a>
+            </a>            
     </ul>
     <a href="{% url 'core:post_edit' post.id%}">редактировать объявление</a>
     <hr />

@@ -20,7 +20,6 @@ urlpatterns = [
     path('category/', AllCategoryView.as_view(), name='category_all'),
     path('category/<int:category_id>/',
          CategoriesDetailView.as_view(), name='category_detail'),
-
 ]
 
 urlpatterns += auth_patterns

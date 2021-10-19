@@ -5,7 +5,7 @@
   
   <section class="category_det-main">
     <article class="category_posts">{% if categories %}
-        <ul>
+        <ul class="category_mainpage">
           {% for category in categories %}
           <li>
             <a href="{% url 'core:category_detail' category.id %}"

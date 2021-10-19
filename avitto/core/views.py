@@ -21,13 +21,14 @@ class IndexView(ListView):
     context_object_name = 'posts'
     extra_context = {'page_title': 'Главная'}
 
-    def get_queryset(self):
-        return self.model.objects.all().order_by('-date_edit')[:7]
+    # def get_queryset(self):
+    #     return self.model.objects.all().order_by('-date_edit')[:7]
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(IndexView, self).get_context_data(**kwargs)
-    #     context['categories'] = Category.objects.all()
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['posts'] = self.model.objects.all().order_by('-date_edit')[:7]
+        context['category'] = Category.objects.all()
+        return context
 
 
 # def index(request):
@@ -45,8 +46,11 @@ class AllPostView(IndexView):
     template_name = 'core/all_posts.html'
     extra_context = {'page_title': 'Все объявления'}
 
-    def get_queryset(self):
-        return self.model.objects.all().order_by('category')
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['posts'] = self.model.objects.all().order_by('-date_edit')
+        context['category'] = Category.objects.all()
+        return context
 
 
 # def all_posts(request):

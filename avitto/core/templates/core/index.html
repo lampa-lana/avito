@@ -6,7 +6,14 @@
      <h1 class="title_page">
           Добро пожаловать на сайт бесплатных объявлений
       </h1> 
-      <h2>Самые последние из размещенных объявлений:</h2>              
+      <h2>Самые последние из размещенных объявлений:</h2>      
+       <ul class="category_mainpage">
+          {% for cat in category %}
+          <li>
+            <a href="{% url 'core:category_detail' cat.id %}">{{ cat.category_name }}</a>
+          </li>
+          {% endfor %}
+        </ul>                      
       <section class="posts">        
         {% if posts %}
         <ul class="posts_list">
@@ -18,6 +25,7 @@
                <p>Дата последнего изменения: {{ post.date_edit }}</p>
                <p>Стоимость: {{ post.price }} рублей</p>
                <p>Категория объявления: {{post.category}}</p>
+                <a href="{% url 'core:profile' post.author.id %}">Продавец: {{post.author.username}} </a>
             </a>            
            </li>               
           {% endfor %}

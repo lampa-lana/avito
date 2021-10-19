@@ -3,13 +3,12 @@ from django.contrib.auth.forms import (
     AuthenticationForm, UsernameField, UserCreationForm)
 from django.contrib.auth.models import User
 
+from .models import Profile
+
 
 class LoginForm(AuthenticationForm):
-
-    username = UsernameField(
-        widget=forms.TextInput(
-            attrs={'placeholder': 'например: Fedor',
-                   'class': 'form-control', }))
+    username = UsernameField(widget=forms.TextInput(attrs={'placeholder': 'например: Fedor',
+                                                           'class': 'form-control', }))
 
     password = forms.CharField(
         label="Пароль",
@@ -61,3 +60,13 @@ class SignUpForm(UserCreationForm):
         if email and User.objects.filter(email=email).exists():
             raise forms.ValidationError('email должен быть уникальным')
         return email
+
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['about', 'foto']
+        labels = {
+            'about': 'Обо мне',
+            'foto': 'Мое фото',
+        }
