@@ -1,5 +1,5 @@
 from django.db.models.aggregates import Sum
-from django.http.response import HttpResponseNotFound
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import Context, loader
 from django.http import HttpResponse
@@ -84,12 +84,13 @@ class PostDetailView(DetailView):
 #     return render(request, template_name='core/post_detail.html', context=context)
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(CreateView):
     form_class = PostForm
     template_name = 'core/post_create.html'
     login_url = '/admin/login'
     extra_context = {'page_title': 'Создать объявление'}
 
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():

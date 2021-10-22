@@ -36,10 +36,10 @@ class SignUpForm(UserCreationForm):
         label='Подтвердите пароль',
         strip=False,
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Пароль',
+            'placeholder': 'Повторите пароль',
             'class': 'form-control',
         }),
-        help_text='Введите тот же пароль, что и выше'
+        # help_text='Введите тот же пароль, что и выше'
     )
 
     error_messages = {
@@ -50,8 +50,8 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ['email', 'username']
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
-            'email': forms.EmailInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Email'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}),
+            'email': forms.EmailInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Ваш email'}),
         }
 
     def clean_email(self):
@@ -65,8 +65,9 @@ class SignUpForm(UserCreationForm):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['about', 'foto']
+        fields = ['about', 'foto', 'birth_date']
         labels = {
             'about': 'Обо мне',
             'foto': 'Мое фото',
+            'birth_date': 'Мой день рождения',
         }

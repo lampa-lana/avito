@@ -8,9 +8,13 @@
           {% for profile in all_profile %}
           <li>
             <a href="{% url 'core:profile' profile.user.id %}"
-              >{{ profile.user.username }}</a>
-            <img src="{{ profile.foto.url }}" alt="photo" class="profile_img">           
-         
+              >{{ profile.user.username }}</a>   
+               {% if profile.foto %}
+                <img src="{{ profile.foto.url }}" alt="photo" class="profile_img">
+                {% else %}
+                   <p></p>
+                {% endif %}                    
+                        
           {% endfor %}         
         </ul>
       {% endif %}

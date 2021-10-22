@@ -6,8 +6,7 @@ from django.forms import fields
 from django.http.response import Http404
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django.urls.base import reverse
-from django.views.generic.edit import DeleteView
-from django.views.generic import UpdateView, View
+from django.views.generic import UpdateView, View, DetailView
 from django.views.generic.list import ListView
 from .forms_auth import LoginForm, SignUpForm
 from .models import Profile
@@ -15,6 +14,7 @@ from .forms_auth import UpdateProfileForm
 
 
 class MyLoginView(LoginView):
+    model = Profile
     template_name = 'my_auth/login.html'
     form = LoginForm
     extra_context = {'page_title': 'Личный кабинет'}
@@ -40,7 +40,7 @@ def logout_view(request):
     return redirect(reverse('core:login'), request)
 
 
-class ProfileView(DeleteView):
+class ProfileView(DetailView):
     model = Profile
     template_name = 'my_auth/profile.html'
     extra_context = {'page_title': 'Профиль'}
@@ -59,7 +59,7 @@ class AllProfileView(ListView):
         return self.model.objects.all()
 
 
-class EditProfileView(UpdateView):
+class EditProfileView(UpdateView, AllProfileView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'my_auth/edit_profile.html'
@@ -91,12 +91,11 @@ class SignUpView(View):
 
         registered = False
         context = {}
-
         if user_form.is_valid():
             user_form.save()
             registered = True
         else:
             context.update({'form': user_form})
-        context.uptate({'registered': registered})
+        context.update({'registered': registered})
 
         return render(request, self.template_name, context)

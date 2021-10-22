@@ -134,3 +134,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # папка для сохранения медиафайлов
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'  # url для сохранения мениафайлов
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmaleBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USR = 'email@email.com'
+EMAIL_HOST_PASSWORD = 'пароль'
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'email11223355@email.com'

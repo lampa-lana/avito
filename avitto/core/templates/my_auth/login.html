@@ -11,13 +11,16 @@
         {% for field in form %}
         <p>{{ field.label }}</p>
         <p>{{ field }}</p>
-        <p>{{ field.error }}</p>
-      {% endfor %}
+        <p>{{ field.error }}</p>         
+      {% endfor %}         
        <button type="submit" class="button">ВОЙТИ</button>
+       <hr>
+        <h2>Если забыли пороль, нажмите 'сбросить пороль'</h2>  
+         <a href="{% url 'core:password_reset' %}" class="button">сбросить пороль</a>
       </form>
     {% else %}
-    <h2>Добро пожаловать {{ user.username }}</h2>
-    <a href="{% url 'core:logout' %}" class="button">выйти</a>
-    {% endif %}
-  </section>    
-{% endblock content%}</p>
+    <h2>Добро пожаловать {{ user.username }}</h2>            
+     <a href="{% url 'core:logout' %}" class="button">выйти</a>   
+   {% endif %}    
+  </section>   
+  {% endblock content%}</p>
