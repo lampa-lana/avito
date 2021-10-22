@@ -2,7 +2,7 @@
 <title>{{page_title}}</title>
 {% endblock title %}
 <p>{%block content %}
-<!-- {% if user.is_authenticated %}
+{% if user.is_authenticated %}
     <form method="POST" enctype="multipart/form-data" class="post-form">
       {% csrf_token %}
       {% for field in form %}
@@ -12,7 +12,7 @@
         {% endfor %}
        <button type="submit" class="button">Разместить объявление</button>
     </form>
-{% else %} -->
+{% else %}
     <h3> Чтобы создавать объявления, вам нужно </h3>
     <a href="{% url 'core:login' %}" class="button"> ВОЙТИ </a> 
     <hr>

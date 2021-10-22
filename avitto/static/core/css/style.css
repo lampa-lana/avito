@@ -177,6 +177,10 @@ h2 {
 }
 
 .button {
+  font-family: "Open Sans" sans-serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 22px;
   display: inline-block;
   padding: 9px 22px 9px 22px;
   background: #000000;
