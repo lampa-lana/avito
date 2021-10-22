@@ -4,12 +4,12 @@ from django.contrib.auth.views import LoginView
 from django.db import models
 from django.forms import fields
 from django.http.response import Http404
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django.urls.base import reverse
 from django.views.generic.edit import DeleteView
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, View
 from django.views.generic.list import ListView
-from .forms_auth import LoginForm
+from .forms_auth import LoginForm, SignUpForm
 from .models import Profile
 from .forms_auth import UpdateProfileForm
 
@@ -76,3 +76,27 @@ class EditProfileView(UpdateView):
         if obj.user != request.user:
             raise Http404('Вы не можете редактировать чужой профиль!')
         return super().dispatch(request, *args, **kwargs)
+
+
+class SignUpView(View):
+    template_name = 'my_auth/sighup.html'
+    sighup_form = SignUpForm
+    extra_context = {'page_title': 'Регистация пользователей'}
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'form': self.sighup_form})
+
+    def post(self, request, *args, **kwargs):
+        user_form = self.sighup_form(data=request.POST)
+
+        registered = False
+        context = {}
+
+        if user_form.is_valid():
+            user_form.save()
+            registered = True
+        else:
+            context.update({'form': user_form})
+        context.uptate({'registered': registered})
+
+        return render(request, self.template_name, context)
