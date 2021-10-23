@@ -1,0 +1,1 @@
+"git.ignoredRepositories": [db.sqLite3, *.рус, *~, __pycache__, venv, .DS_Store, /media]
