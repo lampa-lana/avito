@@ -1,7 +1,1 @@
-*.рус
-*~
-__pycache__
-venv
-db.sqLite3
-.DS_Store
-/media
+/venv
