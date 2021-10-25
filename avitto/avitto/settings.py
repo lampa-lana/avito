@@ -123,17 +123,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIR = [BASE_DIR, 'static']
+
+# папка для сохранения медиафайлов
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'  # url для сохранения мениафайлов
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# папка для сохранения медиафайлов
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'  # url для сохранения мениафайлов
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
