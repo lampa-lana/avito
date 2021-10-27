@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .validators import validate_date_edit, validate_birth_date
 
 
 # Create your models here.
@@ -18,10 +19,10 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile', verbose_name='пользователь')
     about = models.TextField(max_length=500, verbose_name='немного о себе')
-    foto = models.ImageField(upload_to=user_foto_path,
+    foto = models.ImageField(upload_to=user_foto_path, null=True, blank=True,
                              verbose_name='фото пользователя')
     birth_date = models.DateField(
-        null=True, blank=True, verbose_name='день рождения')
+        null=True, blank=True, verbose_name='день рождения', validators=[validate_birth_date, ])
     post = models.ForeignKey(
         'Post', on_delete=models.PROTECT, null=True, blank=True, related_name='post', verbose_name='объявления пользователя')
 
@@ -60,11 +61,11 @@ class Post(models.Model):
     description = models.TextField(
         max_length=1000, blank=True, verbose_name='содержание объявления')
     image = models.ImageField(
-        upload_to=user_directory_path, verbose_name='фотография товара')
+        upload_to=user_directory_path, verbose_name='фотография товара', null=True, blank=True)
     date_pub = models.DateTimeField(
         default=timezone.now, verbose_name='дата создания')  # (auto_now_add=True)
     date_edit = models.DateTimeField(
-        default=timezone.now, verbose_name='дата изменения')  # (auto_now=True)
+        default=timezone.now, verbose_name='дата изменения', validators=[validate_date_edit, ])  # (auto_now=True)
     price = models.IntegerField(verbose_name='цена товара')
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, null=True, blank=True, related_name='category', verbose_name='категория товара')
@@ -74,7 +75,7 @@ class Post(models.Model):
         self.save()
 
     def __str__(self) -> str:
-        return 'Категория: {}  (Пользователь: {}  дата публикации: {}   {}   цена: {})'.format(self.category.category_name, self.author.username, self.date_pub, self.post_name, self.price,)
+        return '(Пользователь {}: {},  цена: {})'.format(self.author.username, self.post_name, self.price,)
 
     @property
     def image_url(self):
