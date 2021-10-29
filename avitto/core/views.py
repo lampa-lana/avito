@@ -26,7 +26,8 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['posts'] = self.model.objects.all().order_by('-date_edit')[:7]
+        context['posts'] = self.model.objects.all().order_by(
+            '-date_edit').filter(draft=False).order_by('-date_edit')[:7]
         context['category'] = Category.objects.all()
         return context
 
@@ -48,7 +49,8 @@ class AllPostView(IndexView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['posts'] = self.model.objects.all().order_by('-date_edit')
+        context['posts'] = self.model.objects.all().order_by(
+            '-date_edit').filter(draft=False)
         context['category'] = Category.objects.all()
         return context
 
@@ -70,6 +72,7 @@ class PostDetailView(DetailView):
     def get(self, request, post_id, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
+        context['posts'] = Post.objects.filter(draft=True)
         context['categories'] = Category.objects.all()
 
         return self.render_to_response(context)

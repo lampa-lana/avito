@@ -63,12 +63,13 @@ class Post(models.Model):
     image = models.ImageField(
         upload_to=user_directory_path, verbose_name='фотография товара', null=True, blank=True)
     date_pub = models.DateTimeField(
-        default=timezone.now, verbose_name='дата создания')  # (auto_now_add=True)
+        auto_now_add=True, verbose_name='дата создания')  # (auto_now_add=True)
     date_edit = models.DateTimeField(
-        default=timezone.now, verbose_name='дата изменения', validators=[validate_date_edit, ])  # (auto_now=True)
+        auto_now=True, verbose_name='дата изменения', validators=[validate_date_edit, ])  # (auto_now=True)
     price = models.IntegerField(verbose_name='цена товара')
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, null=True, blank=True, related_name='category', verbose_name='категория товара')
+    draft = models.BooleanField("Черновик", default=False)
 
     def publish(self):
         self.published_date = timezone.now()

@@ -10,12 +10,11 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['post_name', 'description',
-                  'image', 'date_pub', 'price', 'category']
+                  'image', 'price', 'category']
         widgets = {
             'post_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Продам что-нибудь'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Подробнее, о том что продаю'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control', }),
-            # 'date_pub': forms.SplitDateTimeWidget(attrs={'class': 'post-image', }),
             'price': forms.NumberInput(attrs={'class': 'form-control', }),
 
         }
