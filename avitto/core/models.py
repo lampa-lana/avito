@@ -15,6 +15,10 @@ def user_directory_path(instance, filename):
     return 'user_{0}/posts/{1}'.format(instance.author.id, filename)
 
 
+def upload_gallery_image(instance, filename):
+    return 'images/{0}/gallery/{1}'.format(instance.author.id, filename)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile', verbose_name='пользователь')

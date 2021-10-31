@@ -18,16 +18,16 @@
   </section>
   <section>
     <h2>{{ post.post_name }}</h2>
-    <ul>
-      <h2>Категория объявления: {{ post.category }}</h2>
-      <li>Подробнее: {{ post.description|linebreaks }}</li>
-      <li><img src="{{ post.image_url }}" alt="{{ post.post_name}}" /></li>
-      <li>Дата публикации: {{ post.date_pub }}</li>
-      <li>Дата последнего изменения: {{ post.date_edit }}</li>
-      <li>Объявление изменялось {{ post.date_edit|timesince }} назад</li>
-      <li>Стоимость: {{ post.price }} рублей</li>
+    <h2>Категория объявления: {{ post.category }}</h2>
+    <ul class="post_card-detail image_card">      
+      <li><p>Подробнее: {{ post.description|linebreaks }}</p>
+      <img src="{{ post.image_url }}" alt="{{ post.post_name}}" />
+      <p>Дата публикации: {{ post.date_pub }}</p>
+      <p>Дата последнего изменения: {{ post.date_edit }}</p>
+      <p>Объявление изменялось {{ post.date_edit|timesince }} назад</p>
+      <p>Стоимость: {{ post.price }} рублей</p>
        <a href="{% url 'core:profile' post.author.id %}">Продавец: {{post.author.username}} </a>
-            </a>            
+            </a></li>        
     </ul>
     <a href="{% url 'core:post_edit' post.id%}">редактировать объявление</a>
     <hr />
