@@ -68,7 +68,7 @@ class EditProfileView(UpdateView, AllProfileView):
     extra_context = {'page_title': 'Редактирование профиля'}
 
     def get_success_url(self):
-        user_id = self.kwargs.get('user_id')
+        user_id = self.kwargs.get('user_id', )
         return reverse('core:profile', args=(self.request.user.id,))
 
     def dispatch(self, request, *args, **kwargs):

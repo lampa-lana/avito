@@ -26,7 +26,7 @@ class Profile(models.Model):
     foto = models.ImageField(upload_to=user_foto_path,
                              verbose_name='фото пользователя')
     birth_date = models.DateField(
-        null=True, blank=True, verbose_name='день рождения', validators=[validate_birth_date, ])
+        null=True, blank=True, verbose_name='день рождения', validators=[validate_birth_date])
     post = models.ForeignKey(
         'Post', on_delete=models.PROTECT, null=True, blank=True, related_name='post', verbose_name='объявления пользователя')
 
@@ -69,7 +69,7 @@ class Post(models.Model):
     date_pub = models.DateTimeField(
         auto_now_add=True, verbose_name='дата создания')  # (auto_now_add=True)
     date_edit = models.DateTimeField(
-        auto_now=True, verbose_name='дата изменения', validators=[validate_date_edit, ])  # (auto_now=True)
+        auto_now=True, verbose_name='дата изменения', validators=[validate_date_edit])  # (auto_now=True)
     price = models.IntegerField(verbose_name='цена товара')
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, null=True, blank=True, related_name='category', verbose_name='категория товара')
