@@ -34,7 +34,12 @@ class ProfileAdmin(admin.ModelAdmin):
         return mark_safe(f'<img src="{obj.foto.url}" style="max-height: 100px;">')
 
 
+# class ImageLine(admin.TabularInline):
+#     model = Image
+
+
 class PostAdmin(admin.ModelAdmin):
+
     list_display = ('author', 'post_name', 'date_pub',
                     'price', 'category', 'draft')
     list_display_links = ('author',  'category')
@@ -97,7 +102,7 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
-# --------------------------- Profile, Post, Category-----------------------------
+# ---------------------------END Profile, Post, Category-----------------------------
 admin.site.unregister(User)
 
 
@@ -136,4 +141,7 @@ class MyUserAdmin(UserAdmin):
     inlines = [ProfileInline, PostInline]
 
 
-# ---------------------------------User+Profile+Post--------------------------------------
+# ------------------------------ END User+Profile+Post--------------------------------------
+
+# class ImageLine(admin.TabularInline):
+#     model = Image

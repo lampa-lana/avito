@@ -1,5 +1,6 @@
 from django.db.models.aggregates import Sum
 from django.contrib.auth.decorators import login_required
+from django.forms.models import modelform_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import Context, loader
 from django.http import HttpResponse
@@ -8,9 +9,10 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView, D
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, View
 from .models import Post, Category, Profile
 from .forms import PostForm
+from django.forms import modelformset_factory
 
 # Create your views here.
 
@@ -142,7 +144,7 @@ class EditView(UpdateView):
     extra_context = {'page_title': 'Изменить объявление'}
 
     def get_success_url(self):
-        post_id = self.kwargs['post_id']
+        post_id = self.kwargs['post_id', ]
         return reverse('core:post_detail', args=(post_id, ))
 
 
@@ -194,3 +196,60 @@ class AllCategoryView(ListView):
 
 # def pageNotFound(request, exception):
 #     return HttpResponseNotFound('<h1> Страница не найдена</h1>')
+#
+# class PostCreateView(CreateView):
+#     form_class = PostForm
+#     template_name = 'core/post_create.html'
+#     login_url = '/admin/login'
+#     extra_context = {'page_title': 'Создать объявление'}
+#     ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=3)
+
+#     @method_decorator(login_required)
+#     def add_pet_view(self, request, *args, **kwargs):
+#         if request.method == "GET":
+#             self.object = self.get_object()
+#             form = PostForm
+#             formset = self.ImageFormSet(queryset=Image.objects.none())
+#             return render(self.request, self.template_name, {'form': form, 'formset': formset})
+#         elif request.method == "POST":
+#             form = PostForm(request.POST)
+#             formset = self.ImageFormSet(
+#                 request.POST, request.FILES, queryset=Image.objects.none())
+#             if form.is_valid() and formset.is_valid():
+#                 post = form.save(commit=False)
+#                 post.author = request.user
+#                 post.save()
+#                 for form in formset.cleaned_data:
+#                     image = form['image']
+#                     photo = Image(post=post, image=image)
+#                     photo.save()
+#                 return redirect(reverse('core:post_detail', kwargs={'post_id': post.id}))
+#         else:
+#             form = PostForm
+#             formset = self.ImageFormSet(queryset=Image.objects.none())
+#             return render(request, self.template_name, {
+#                 'form': form, 'formset': formset}, context_instance=self.RequestContext(request))
+
+
+# def add_pet_view(request):
+#     ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=3)
+#     if request.method == "GET":
+#         form = PostForm
+#         formset = ImageFormSet(queryset=Image.objects.none())
+#         return render(request, 'core/post_create.html', {'form': form, "formset": formset})
+#     elif request.method == "POST":
+#         form = PostForm(request.POST, request.FILES)
+#         formset = ImageFormSet(request.POST, request.FILES)
+#     if form.is_valid() and formset.is_valid():
+#         post = form.save(commit=False)
+#         post.author = request.user
+#         post.save()
+#         for form in formset.cleaned_data:
+#             if form:
+#                 image = form['image']
+#                 photo = Image(post=post, image=image)
+#                 photo.save()
+#         return redirect(reverse('core:post_detail', kwargs={'post_id': post.id}))
+#     else:
+#         return render(request, 'core/post_create.html', {
+#             'form': form, "formset": formset})

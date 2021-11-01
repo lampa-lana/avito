@@ -17,17 +17,17 @@ class TestCoreViews(TestCase):
         self.assertContains(self.response, 'Личный кабинет')
 
 
-class TestAuthViews(TestCase):
-    def setUp(self):
-        self.my_user = User.objects.create(
-            username='Ivan',
-            password='test',
-            email='ivan@test.com')
-        self.my_user.save()
-        super().setUp()
+# class TestAuthViews(TestCase):
+#     def setUp(self):
+#         self.my_user = User.objects.create(
+#             username='Ivan',
+#             password='test',
+#             email='ivan@test.com')
+#         self.my_user.save()
+#         super().setUp()
 
-    def test_login_redirect(self):
-        self.client.login(username='Ivan',
-                          password='test')
-        request = self.client.post('login/',)
-        self.assertRedirects(request, '',)
+#     def test_login_redirect(self):
+#         self.client.login(username='Ivan',
+#                           password='test')
+#         request = self.client.post('login/',)
+#         self.assertRedirects(request, '',)

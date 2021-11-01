@@ -16,14 +16,14 @@ def user_directory_path(instance, filename):
 
 
 def upload_gallery_image(instance, filename):
-    return 'images/{0}/gallery/{1}'.format(instance.author.id, filename)
+    return 'images/{0}/gallery/{1}'.format(instance.post.id, filename)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile', verbose_name='пользователь')
     about = models.TextField(max_length=500, verbose_name='немного о себе')
-    foto = models.ImageField(upload_to=user_foto_path, null=True, blank=True,
+    foto = models.ImageField(upload_to=user_foto_path,
                              verbose_name='фото пользователя')
     birth_date = models.DateField(
         null=True, blank=True, verbose_name='день рождения', validators=[validate_birth_date, ])
@@ -65,7 +65,7 @@ class Post(models.Model):
     description = models.TextField(
         max_length=1000, blank=True, verbose_name='содержание объявления')
     image = models.ImageField(
-        upload_to=user_directory_path, verbose_name='фотография товара', null=True, blank=True)
+        upload_to=user_directory_path, verbose_name='фотография товара')
     date_pub = models.DateTimeField(
         auto_now_add=True, verbose_name='дата создания')  # (auto_now_add=True)
     date_edit = models.DateTimeField(
@@ -94,3 +94,9 @@ class Post(models.Model):
         verbose_name_plural = 'список объявлений'
         # порядок сортировки с минусом в обратную сторону
         ordering = ['-category', '-date_pub']
+
+
+# class Image(models.Model):
+#     image = models.ImageField(upload_to=upload_gallery_image)
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE,
+#                              related_name='images', verbose_name='галерея')

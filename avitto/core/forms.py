@@ -10,12 +10,13 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['post_name', 'description',
-                  'image', 'price', 'category']
+                  'image', 'price', 'category', ]
         widgets = {
             'post_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Продам что-нибудь'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Подробнее, о том что продаю'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control', }),
             'price': forms.NumberInput(attrs={'class': 'form-control', }),
+
 
         }
 
@@ -42,3 +43,11 @@ class PostForm(forms.ModelForm):
             return image
         else:
             raise ValidationError('Не удалось прочитать файл')
+
+
+# class ImageForm(forms.ModelForm):
+#     image = forms.ImageField(label='Image')
+
+#     class Meta:
+#         model = Image
+#         fields = ('image', )
