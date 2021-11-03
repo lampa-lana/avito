@@ -72,10 +72,11 @@ class EditProfileView(UpdateView, AllProfileView):
         return reverse('core:profile', args=(self.request.user.id,))
 
     def dispatch(self, request, *args, **kwargs):
+
         obj = self.get_object()  # obj конкретный профиль, кот мы получаем с помощью user_id
         if obj.user != request.user:
             raise Http404('Вы не можете редактировать чужой профиль!')
-        return super().dispatch(request, *args, **kwargs)
+        return super(EditProfileView, self).dispatch(request,  *args, **kwargs)
 
 
 class SignUpView(View):

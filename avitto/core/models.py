@@ -26,7 +26,7 @@ class Profile(models.Model):
     foto = models.ImageField(upload_to=user_foto_path,
                              verbose_name='фото пользователя')
     birth_date = models.DateField(
-        null=True, blank=True, verbose_name='день рождения', validators=[validate_birth_date])
+        null=True, blank=True, verbose_name='день рождения', )
     post = models.ForeignKey(
         'Post', on_delete=models.PROTECT, null=True, blank=True, related_name='post', verbose_name='объявления пользователя')
 
@@ -94,9 +94,3 @@ class Post(models.Model):
         verbose_name_plural = 'список объявлений'
         # порядок сортировки с минусом в обратную сторону
         ordering = ['-category', '-date_pub']
-
-
-# class Image(models.Model):
-#     image = models.ImageField(upload_to=upload_gallery_image)
-#     post = models.ForeignKey(Post, on_delete=models.CASCADE,
-#                              related_name='images', verbose_name='галерея')

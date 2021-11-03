@@ -18,6 +18,8 @@ class TestPostModel(TestCase):
         image = os.path.join(dir_, 'static', 'test.jpg')
         f = codecs.open(image, encoding='base64')
         self.image = SimpleUploadedFile(f.name, f.read())
+        f.close()
+
         self.my_user = User.objects.create(
             username='Ivan',
             password='test',
@@ -48,10 +50,14 @@ class TestProfileModel(TestCase):
         image = os.path.join(dir_, 'static', 'test.jpg')
         f = codecs.open(image, encoding='base64')
         self.image = SimpleUploadedFile(f.name, f.read())
+        f.close()
+
         self.my_user = User.objects.create(
             username='Ivan',
             password='test',
             email='ivan@test.com')
+        self.my_user.save()
+        super().setUp()
 
     @override_settings(MEDIA_ROOT=tempfile.gettempdir())
     def test_create_profile_with_user(self):
@@ -60,6 +66,7 @@ class TestProfileModel(TestCase):
     @override_settings(MEDIA_ROOT=tempfile.gettempdir())
     def test_birth_date_with_future_date(self):
         with self.assertRaises(ValidationError):
-            self.my_user.profile.birth_date = datetime.now() + timedelta(days=1)
-            self.my_user.profile.full_clean()
+            self.my_user.profile.birth_date = datetime.datetime.now() + \
+                datetime.timedelta(days=1)
             self.my_user.profile.save()
+            self.my_user.profile.full_clean()
