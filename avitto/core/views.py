@@ -144,7 +144,7 @@ class EditView(UpdateView):
     extra_context = {'page_title': 'Изменить объявление'}
 
     def get_success_url(self):
-        post_id = self.kwargs['post_id', ]
+        post_id = self.kwargs['post_id']
         return reverse('core:post_detail', args=(post_id, ))
 
 

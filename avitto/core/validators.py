@@ -15,9 +15,7 @@ def validate_date_edit(value):
 def validate_birth_date(value):
     """
     Проверяет корректность даты рождения
-
     """
-    if value > (timezone.now() + datetime.timedelta(days=1)).date():
+    if value >= (timezone.now() + datetime.timedelta(days=1)).date():
         raise ValidationError(
-            ('%(value)s Указанная дата не может быть больше текущей даты'),
-            params={'value': value},)
+            'Указанная дата не может быть больше текущей даты', params={'value': value},)

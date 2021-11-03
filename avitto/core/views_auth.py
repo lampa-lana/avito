@@ -59,7 +59,7 @@ class AllProfileView(ListView):
         return self.model.objects.all()
 
 
-class EditProfileView(UpdateView, AllProfileView):
+class EditProfileView(UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'my_auth/edit_profile.html'

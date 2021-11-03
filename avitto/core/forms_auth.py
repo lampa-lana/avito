@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import DateInput
 from django.contrib.auth.forms import (
     AuthenticationForm, UsernameField, UserCreationForm)
 from django.contrib.auth.models import User
@@ -70,4 +71,7 @@ class UpdateProfileForm(forms.ModelForm):
             'about': 'Обо мне',
             'foto': 'Мое фото',
             'birth_date': 'Мой день рождения',
+        },
+        widgets = {
+            'birth_date': DateInput(attrs={'type': 'date', 'placeholder': 'дата рождения'})
         }

@@ -5,11 +5,7 @@
   <section>
      <form method="POST" enctype="multipart/form-data" class="form-control">
       {% csrf_token %}
-      {% for field in form %}
-      <p>{{ field.label }}</p>
-      <p>{{ field }}</p>
-       <p>{{ field.errors }}</p>
-       {% endfor %}
+     {{ form }}
       <button class="button">Редактировать</button>
     </form>
   </section> 
