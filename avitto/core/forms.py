@@ -43,11 +43,3 @@ class PostForm(forms.ModelForm):
             return image
         else:
             raise ValidationError('Не удалось прочитать файл')
-
-
-# class ImageForm(forms.ModelForm):
-#     image = forms.ImageField(label='Image')
-
-#     class Meta:
-#         model = Image
-#         fields = ('image', )
