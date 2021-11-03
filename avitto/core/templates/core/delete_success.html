@@ -2,13 +2,13 @@
 <title>Категории</title>
 {% endblock title %}
 <p>{%block content %} 
-   <header class="header">
+   <header class="header category_del">
       <h1>{{ title }}</h1>
       <h2>Ваше объявление удалено!</h2>
-      <section class="category">
-        <a href="{% url 'core:category_all' %}" class="all-category"
+      <section class="category category_del">
+        <!-- <a href="{% url 'core:category_all' %}" class="all-category"
           >Перейти к просмотру всех категорий</a
-        >
+        > -->
         {% if categories %}
         <ul>
           {% for category in categories %}
@@ -18,20 +18,20 @@
             >
           </li>
           <li>{{ category.description }}</li>
-          <hr />
+         
           {% endfor %}
-          <hr />
+        
         </ul>
         {% endif %}
       </section>
       <a href="{% url 'core:all_posts' %}" class="posts"
         >Перейти к просмотру всех объявлений</a
       >
-      <hr />
+    
       <a href="{% url 'core:post_create' %}" class="post-create"
-        >создать объявление</a
+        >Cоздать объявление</a
       >
-      <hr />
+     
       <a href="{% url 'core:index' %}"> На главную </a>
     </header>
     <!--  /HEADER -->

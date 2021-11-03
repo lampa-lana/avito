@@ -149,6 +149,15 @@ main {
 h2 {
   margin-bottom: 30px;
 }
+
+.image_card img {
+  width: 340px;
+  height: 244px;
+  overflow: hidden;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
 .posts_list {
   display: flex;
   justify-content: space-between;
@@ -168,7 +177,7 @@ h2 {
 
 .posts_list li img {
   margin: auto;
-  width: 30%;
+  width: 87%;
   margin-bottom: 20px;
 }
 
@@ -176,6 +185,16 @@ h2 {
   margin-bottom: 20px;
 }
 
+.post_card-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.post_card-detail li img {
+  margin: auto;
+}
 .button {
   font-family: "Open Sans" sans-serif;
   font-style: normal;

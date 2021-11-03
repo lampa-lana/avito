@@ -151,6 +151,7 @@ h2 {
 }
 
 .image_card img {
+  margin: auto;
   width: 340px;
   height: 244px;
   overflow: hidden;
@@ -189,10 +190,11 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: auto;
 }
 
 .post_card-detail li img {
-  margin-left: 0;
+  margin: auto;
 }
 .button {
   font-family: "Open Sans" sans-serif;
@@ -297,4 +299,11 @@ select {
   border: 2px solid rgba(81, 45, 240, 0.075);
   border-radius: 3px;
   padding-left: 20px;
+}
+
+.category_del {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
 }

@@ -19,9 +19,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Category',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category_name', models.CharField(db_index=True, max_length=100, verbose_name='наименование категории')),
-                ('description', models.TextField(blank=True, max_length=1000, verbose_name='описание категории')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('category_name', models.CharField(db_index=True,
+                 max_length=100, verbose_name='наименование категории')),
+                ('description', models.TextField(blank=True,
+                 max_length=1000, verbose_name='описание категории')),
             ],
             options={
                 'verbose_name': 'категория',
@@ -32,16 +35,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Post',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post_name', models.CharField(max_length=100, verbose_name='наименование объявления')),
-                ('description', models.TextField(blank=True, max_length=1000, verbose_name='содержание объявления')),
-                ('image', models.ImageField(upload_to=core.models.user_directory_path, verbose_name='фотография товара')),
-                ('date_pub', models.DateTimeField(auto_now_add=True, verbose_name='дата создания')),
-                ('date_edit', models.DateTimeField(auto_now=True, validators=[core.validators.validate_date_edit], verbose_name='дата изменения')),
-                ('price', models.IntegerField(verbose_name='цена товара')),
-                ('draft', models.BooleanField(default=False, verbose_name='Черновик')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL, verbose_name='пользователь')),
-                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='category', to='core.category', verbose_name='категория товара')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('post_name', models.CharField(max_length=100,
+                 verbose_name='наименование объявления')),
+                ('description', models.TextField(blank=True,
+                 max_length=1000, verbose_name='содержание объявления')),
+                ('image', models.ImageField(
+                    upload_to=core.models.user_directory_path, verbose_name='фотография товара')),
+                ('date_pub', models.DateTimeField(
+                    auto_now_add=True, verbose_name='дата создания')),
+                ('date_edit', models.DateTimeField(auto_now=True, validators=[
+                 core.validators.validate_date_edit], verbose_name='дата изменения')),
+                ('price', models.models.DecimalField(
+                    verbose_name='цена товара', max_digits=10, decimal_places=2)),
+                ('draft', models.BooleanField(
+                    default=False, verbose_name='Черновик')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='user', to=settings.AUTH_USER_MODEL, verbose_name='пользователь')),
+                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+                 related_name='category', to='core.category', verbose_name='категория товара')),
             ],
             options={
                 'verbose_name': 'объявление',
@@ -52,12 +65,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('about', models.TextField(max_length=500, verbose_name='немного о себе')),
-                ('foto', models.ImageField(upload_to=core.models.user_foto_path, verbose_name='фото пользователя')),
-                ('birth_date', models.DateField(blank=True, null=True, validators=[core.validators.validate_birth_date], verbose_name='день рождения')),
-                ('post', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='post', to='core.post', verbose_name='объявления пользователя')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL, verbose_name='пользователь')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('about', models.TextField(
+                    max_length=500, verbose_name='немного о себе')),
+                ('foto', models.ImageField(
+                    upload_to=core.models.user_foto_path, verbose_name='фото пользователя')),
+                ('birth_date', models.DateField(blank=True, null=True, validators=[
+                 core.validators.validate_birth_date], verbose_name='день рождения')),
+                ('post', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+                 related_name='post', to='core.post', verbose_name='объявления пользователя')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='profile', to=settings.AUTH_USER_MODEL, verbose_name='пользователь')),
             ],
             options={
                 'verbose_name': 'профиль пользователя',

@@ -70,7 +70,8 @@ class Post(models.Model):
         auto_now_add=True, verbose_name='дата создания')  # (auto_now_add=True)
     date_edit = models.DateTimeField(
         auto_now=True, verbose_name='дата изменения', validators=[validate_date_edit])  # (auto_now=True)
-    price = models.IntegerField(verbose_name='цена товара')
+    price = models.DecimalField(
+        verbose_name='цена товара', max_digits=10, decimal_places=2)
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, null=True, blank=True, related_name='category', verbose_name='категория товара')
     draft = models.BooleanField("Черновик", default=False)

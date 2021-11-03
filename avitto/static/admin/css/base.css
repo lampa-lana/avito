@@ -6,9 +6,9 @@
 
 /* VARIABLE DEFINITIONS */
 :root {
-  --primary: #02121a;
-  --secondary: #062a3b;
-  --accent: #141201;
+  --primary: rgba(50, 7, 241, 0.459);
+  --secondary: rgba(50, 7, 241, 0.459);
+  --accent: #5df5a1;
   --primary-fg: #fff;
 
   --body-fg: #333;
@@ -16,7 +16,7 @@
   --body-quiet-color: #666;
   --body-loud-color: #000;
 
-  --header-color: rgb(2, 27, 9);
+  --header-color: #ffc;
   --header-branding-color: var(--accent);
   --header-bg: var(--secondary);
   --header-link-color: var(--primary-fg);
@@ -40,10 +40,10 @@
 
   --darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
   --selected-bg: #e4e4e4; /* E.g. selected table cells */
-  --selected-row: #ffc;
+  --selected-row: #d5ccffc4;
 
   --button-fg: #fff;
-  --button-bg: var(--primary);
+  --button-bg: #d5ccff;
   --button-hover-bg: #609ab6;
   --default-button-bg: var(--secondary);
   --default-button-hover-bg: #205067;
@@ -99,7 +99,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  font-size: 14px;
+  font-size: 30px;
   font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans",
     Verdana, Arial, sans-serif;
   color: var(--body-fg);
@@ -113,6 +113,7 @@ a:visited {
   color: var(--link-fg);
   text-decoration: none;
   transition: color 0.15s, background 0.15s;
+  font-size: 14px;
 }
 
 a:focus,
@@ -127,7 +128,9 @@ a:focus {
 a img {
   border: none;
 }
-
+a.section {
+  font-size: 20px;
+}
 a.section:link,
 a.section:visited {
   color: var(--header-link-color);
@@ -164,7 +167,7 @@ h5 {
 h1 {
   margin: 0 0 20px;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 30px;
   color: var(--body-quiet-color);
 }
 
@@ -790,10 +793,12 @@ div.breadcrumbs {
   border: none;
   color: var(--breadcrumbs-fg);
   text-align: left;
+  margin-bottom: 30px;
 }
 
 div.breadcrumbs a {
   color: var(--breadcrumbs-link-fg);
+  font-size: 30px;
 }
 
 div.breadcrumbs a:focus,
@@ -983,15 +988,14 @@ table#change-history tbody th {
 /* HEADER */
 
 #header {
-  width: auto;
-  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 40px;
+  padding: 40px 40px;
   background: var(--header-bg);
   color: var(--header-color);
   overflow: hidden;
+  margin-bottom: 30px;
 }
 
 #header a:link,
@@ -1013,13 +1017,15 @@ table#change-history tbody th {
   margin: 0 20px 0 0;
   font-weight: 300;
   font-size: 24px;
-  color: red;
+  color: var(--accent);
 }
 
 #branding h1,
 #branding h1 a:link,
 #branding h1 a:visited {
-  color: red;
+  color: white;
+  font-weight: normal;
+  font-size: 24px;
 }
 
 #branding h2 {
@@ -1039,10 +1045,11 @@ table#change-history tbody th {
   padding: 0;
   margin: 0 0 0 20px;
   font-weight: 300;
-  font-size: 11px;
+  font-size: 16px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   text-align: right;
+  font-weight: normal;
 }
 
 #user-tools a {

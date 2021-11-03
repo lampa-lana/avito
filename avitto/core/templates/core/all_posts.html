@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %} {% load my_filters %}
 {% block title %}
 <title>{{page_title}}</title>
 {% endblock title %}
@@ -16,7 +16,7 @@
                <p> {{ post.post_name }}</p>
                <img src="{{ post.image_url }}" alt="{{ post.post_name}}" />
                
-               <p>Стоимость: {{ post.price }} рублей</p>
+               <p>Стоимость: {{ post.price|currency}} рублей</p>
                <p>Категория объявления: {{post.category}}</p>
             </a>            
            </li>               

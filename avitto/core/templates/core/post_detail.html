@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}
+{% extends 'base.html' %}{% load my_filters %} {% block title %}
 <title>{{page_title}}</title>
 {% endblock title %}
 <p>{%block content %} 
@@ -25,7 +25,7 @@
       <p>Дата публикации: {{ post.date_pub }}</p>
       <p>Дата последнего изменения: {{ post.date_edit }}</p>
       <p>Объявление изменялось {{ post.date_edit|timesince }} назад</p>
-      <p>Стоимость: {{ post.price }} рублей</p>
+      <p>Стоимость: {{ post.price|currency}} рублей</p>
        <a href="{% url 'core:profile' post.author.id %}">Продавец: {{post.author.username}} </a>
             </a></li>        
     </ul>
