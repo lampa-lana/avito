@@ -1,4 +1,5 @@
 from django.db.models.aggregates import Sum
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
@@ -13,52 +14,23 @@ from django.views.generic.detail import DetailView, View
 from .models import Post, Category, Profile
 from .forms import PostForm
 from django.forms import modelformset_factory
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
 
-# class IndexView(ListView):
-#     model = Post
-#     object_list = model.objects.all()
-#     template_name = 'core/index.html'
-#     context_object_name = 'posts'
-#     extra_context = {'page_title': 'Главная'}
-#     # По 3 статьи на каждой странице
-#     paginator = Paginator(object_list, 3)
+class IndexView(ListView):
+    model = Post
+    template_name = 'core/index.html'
+    context_object_name = 'posts'
+    extra_context = {'page_title': 'Главная'}
+    queryset = model.objects.all().order_by('-date_edit').filter(draft=False)
+    paginate_by = 3
 
-
-#     # def get_queryset(self):
-#     #     return self.model.objects.all().order_by('-date_edit')[:7]
-
-#     def get_context_data(self, **kwargs):
-#         context = super(IndexView, self).get_context_data(**kwargs)
-#         context['posts'] = self.model.objects.all().order_by(
-#             '-date_edit').filter(draft=False).order_by('-date_edit')[:7]
-#         context['category'] = Category.objects.all()
-#         return context
-def post_list(request):
-    object_list = Post.objects.all().order_by('-date_edit')
-    paginator = Paginator(object_list, 3)  # По 3 статьи на каждой странице.
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'core/index.html', {'page': page, 'posts': posts})
-
-# def index(request):
-#     # Post.objects.order_by('-date_edit') сортировка в обратном порядке по даде изменения публикации
-#     posts = Post.objects.all().order_by('-date_edit')[:7]
-#     categories = Category.objects.all()
-#     context = {
-#         'posts': posts,
-#         'categories': categories,
-#         'title': "avitto", }
-#     return render(request, template_name='core/index.html', context=context)
-# return HttpResponse('Hello world!')
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['category'] = Category.objects.all()
+        return context
 
 
 class AllPostView(ListView):
@@ -66,11 +38,12 @@ class AllPostView(ListView):
     context_object_name = 'posts'
     template_name = 'core/all_posts.html'
     extra_context = {'page_title': 'Все объявления'}
+    queryset = model.objects.all().order_by(
+        '-date_edit').filter(draft=False)
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
-        context['posts'] = self.model.objects.all().order_by(
-            '-date_edit').filter(draft=False)
         context['category'] = Category.objects.all()
         return context
 
