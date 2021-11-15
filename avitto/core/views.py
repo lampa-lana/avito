@@ -1,4 +1,5 @@
 from django.db.models.aggregates import Sum
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory, modelformset_factory
@@ -12,8 +13,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView, View
 from .models import Post, Category, Profile
-from .forms import PostForm
+from .forms import PostForm, EmailPostForm
 from django.forms import modelformset_factory
+from avitto.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
 
 
 # Create your views here.
@@ -24,8 +26,9 @@ class IndexView(ListView):
     template_name = 'core/index.html'
     context_object_name = 'posts'
     extra_context = {'page_title': 'Главная'}
-    queryset = model.objects.all().order_by('-date_edit').filter(draft=False)
-    paginate_by = 3
+    queryset = model.objects.all().filter(
+        draft=False).order_by('-date_edit')[:12]
+    paginate_by = 6
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -188,3 +191,23 @@ class AllCategoryView(ListView):
 # def pageNotFound(request, exception):
 #     return HttpResponseNotFound('<h1> Страница не найдена</h1>')
 #
+
+def post_share(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'GET':
+        form = EmailPostForm()
+    elif request.method == 'POST':
+        # From was submitted
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # From fields passed validation
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message']
+            to = form.cleaned_data['to']
+            send_mail(subject, from_email, to,  message,
+                      DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+
+    else:
+        form = EmailPostForm()
+    return render(request, 'core/share.html', {'post': post, 'form': form})

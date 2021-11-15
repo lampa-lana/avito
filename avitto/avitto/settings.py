@@ -138,13 +138,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'  # url для сохранения мениафайлов
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmaleBackend'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '465'
-EMAIL_HOST_USR = 'email@email.com'
-EMAIL_HOST_PASSWORD = 'пароль'
-EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = 'email11223355@email.com'
+EMAIL_HOST_USER = 'sva19791979@gmail.com'
+EMAIL_HOST_PASSWORD = 'dbtlzvhffprcbmol'
+EMAIL_PORT = 587
+
+RECIPIENTS_EMAIL = ['sva19791979@gmail.com']   # замените на свою почту
+DEFAULT_FROM_EMAIL = 'sva19791979@gmail.com'  # замените на свою почту

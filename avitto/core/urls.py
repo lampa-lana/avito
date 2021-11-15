@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from .views import (CategoriesDetailView,
+from .views import (CategoriesDetailView, post_share,
                     IndexView, AllPostView, PostCreateView, AllCategoryView, PostDelete, EditView, PostDetailView)
 
 from .urls_auth import urlpatterns as auth_patterns
@@ -20,6 +20,8 @@ urlpatterns = [
     path('category/', AllCategoryView.as_view(), name='category_all'),
     path('category/<int:category_id>/',
          CategoriesDetailView.as_view(), name='category_detail'),
+    path('posts/<int:post_id>/share', post_share, name='post_share'),
 ]
+
 
 urlpatterns += auth_patterns

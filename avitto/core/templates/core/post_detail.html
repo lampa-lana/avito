@@ -32,5 +32,6 @@
     <a href="{% url 'core:post_edit' post.id%}">редактировать объявление</a>
     <hr />
     <a href="{% url 'core:post_delete' post.id%}">удалить объявление</a>
+    <a href="{% url 'core:post_share' post.id %}">поделиться объявлением</a>
   </section>
 {% endblock content%}</p>

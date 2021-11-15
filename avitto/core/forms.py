@@ -43,3 +43,11 @@ class PostForm(forms.ModelForm):
             return image
         else:
             raise ValidationError('Не удалось прочитать файл')
+
+
+class EmailPostForm(forms.Form):
+    subject = forms.CharField(label='Тема', required=True, max_length=50)
+    from_email = forms.EmailField(label='Email от кого', required=True)
+    to = forms.EmailField(label='Email кому')
+    message = forms.CharField(
+        label='Сообщение', widget=forms.Textarea, required=True)
