@@ -15,7 +15,7 @@ from django.views.generic.detail import DetailView, View
 from .models import Post, Category, Profile
 from .forms import PostForm, EmailPostForm
 from django.forms import modelformset_factory
-from avitto.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
+from avitto.settings import FROM_EMAIL, EMAIL_ADMIN
 
 
 # Create your views here.
@@ -192,22 +192,29 @@ class AllCategoryView(ListView):
 #     return HttpResponseNotFound('<h1> Страница не найдена</h1>')
 #
 
+
 def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if request.method == 'GET':
-        form = EmailPostForm()
-    elif request.method == 'POST':
+    sent = False
+    # if request.method == 'GET':
+    #     form = EmailPostForm()
+    if request.method == 'POST':
+
         # From was submitted
         form = EmailPostForm(request.POST)
         if form.is_valid():
-            # From fields passed validation
-            subject = form.cleaned_data['subject']
-            from_email = form.cleaned_data['from_email']
-            message = form.cleaned_data['message']
-            to = form.cleaned_data['to']
-            send_mail(subject, from_email, to,  message,
-                      DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+            cd = form.cleaned_data
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = '{}({})рекомендует Вам посмотреть "{}"'.format(cd['subject'],
+                                                                     cd['from_email'],
+                                                                     post.post_name)
+            message = 'Посмотреть"{}" at {} \n\n\' о:{}'.format(post.post_name,
+                                                                post_url,
+                                                                cd['subject'],
+                                                                cd['message'])
+            send_mail(subject, message, cd['from_email'], [cd['to']])
+            sent = True
 
     else:
         form = EmailPostForm()
-    return render(request, 'core/share.html', {'post': post, 'form': form})
+    return render(request, 'core/share.html', {'post': post, 'form': form, 'sent': sent})

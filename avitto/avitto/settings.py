@@ -148,5 +148,6 @@ EMAIL_HOST_USER = 'sva19791979@gmail.com'
 EMAIL_HOST_PASSWORD = 'dbtlzvhffprcbmol'
 EMAIL_PORT = 587
 
-RECIPIENTS_EMAIL = ['sva19791979@gmail.com']   # замените на свою почту
-DEFAULT_FROM_EMAIL = 'sva19791979@gmail.com'  # замените на свою почту
+
+FROM_EMAIL = 'sva19791979@gmail.com'
+EMAIL_ADMIN = 'lampa1979@mail.ru'

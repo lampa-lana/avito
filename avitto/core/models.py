@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .validators import validate_date_edit, validate_birth_date
+from django.urls import reverse
 
 
 # Create your models here.
@@ -75,13 +76,18 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, null=True, blank=True, related_name='category', verbose_name='категория товара')
     draft = models.BooleanField("Черновик", default=False)
+    slug = models.SlugField(
+        max_length=250, unique_for_date='date_pub')
 
     def publish(self):
         self.published_date = timezone.now()
         self.save()
 
     def __str__(self) -> str:
-        return '(Пользователь {}: {},  цена: {})'.format(self.author.username, self.post_name, self.price,)
+        return '(Пользователь {}: {},  цена: {})'.format(self.author.username, self.post_name, self.price, )
+
+    def get_absolute_url(self):
+        return reverse('core:post_detail', kwargs={'post_id': self.pk})
 
     @property
     def image_url(self):

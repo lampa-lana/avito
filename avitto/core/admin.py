@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.db.models import fields
 from django.utils.safestring import mark_safe
 from .models import Profile, Post, Category
+from django.utils.text import slugify
 
 # Register your models here.
 
@@ -41,11 +42,12 @@ class ProfileAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
 
     list_display = ('author', 'post_name', 'date_pub',
-                    'price', 'category', 'draft')
+                    'price', 'category', 'draft', 'slug')
     list_display_links = ('author',  'category')
     list_editable = ['post_name', 'draft', ]
     actions = ['unpublish', 'publish']
     search_fields = ('post_name', 'author', )
+    prepopulated_fields = {'slug': ('post_name',)}
     list_filter = ('category', 'author',  'date_pub', 'price', )
     readonly_fields = ['date_pub', 'date_edit', 'image_url', 'preview', ]
     # fields = ['author', ('post_name',
@@ -54,7 +56,7 @@ class PostAdmin(admin.ModelAdmin):
     fieldsets = [
         ['Основная информация', {'fields': [
             'author',
-            ('post_name', 'category'), ]}],
+            ('post_name', 'category', 'slug'), ]}],
         ['Подробнее об объявлении', {'fields': [
             ('description', 'price'),
             ('preview', 'image'), ]}],
@@ -90,6 +92,11 @@ class PostAdmin(admin.ModelAdmin):
 
     publish.short_description = "Опубликовать"
     publish.allowed_permissions = ('change', )
+
+    def save_model(self, obj, form):
+        if form.cleaned_data['slug'] == "":
+            obj.slug = slugify(form.cleaned_data['post_name'])
+        obj.save()
 
 
 class CategoryAdmin(admin.ModelAdmin):
