@@ -1,10 +1,11 @@
+from django.utils import timezone
 from django.db.models.aggregates import Sum
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
-from django.template import Context, loader
+from django.template import Context, context, loader
 from django.http import HttpResponse
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, DetailView
@@ -12,8 +13,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView, View
-from .models import Post, Category, Profile
-from .forms import PostForm, EmailPostForm
+from .models import Post, Category, Profile, Comment
+from .forms import PostForm, EmailPostForm, CommentForm
 from django.forms import modelformset_factory
 from avitto.settings import FROM_EMAIL, EMAIL_ADMIN
 
@@ -61,6 +62,7 @@ class AllPostView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    comment_form = CommentForm
     pk_url_kwarg = "post_id"
     template_name = 'core/post_detail.html'
     extra_context = {'page_title': 'Подробнее об объявлении'}
@@ -70,9 +72,30 @@ class PostDetailView(DetailView):
         context = self.get_context_data(object=self.object)
         context['posts'] = Post.objects.filter(draft=True)
         context['categories'] = Category.objects.all()
-
+        context['comments'] = Comment.objects.filter(
+            post__pk=post_id).order_by('-timestamp')
+        context['comment_form'] = None
+        if request.user.is_authenticated:
+            context['comment_form'] = self.comment_form
         return self.render_to_response(context)
 
+    @method_decorator(login_required)
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, pk=post_id)
+        form = self.comment_form(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.timestamp = timezone.now()
+            comment.user = request.user
+            comment.post = post
+            comment.save()
+            return redirect('core:post_detail', post_id)
+        else:
+            return render(request=request, template_name=self.template_name, context={'comment_form': form,
+                                                                                      'post': post,
+                                                                                      'categories': Category.objects.all(),
+
+                                                                                      })
 
 # def post_detail(request, post_id):
 #     # детали поста
@@ -89,7 +112,7 @@ class PostCreateView(CreateView):
     login_url = '/admin/login'
     extra_context = {'page_title': 'Создать объявление'}
 
-    @method_decorator(login_required)
+    @ method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():

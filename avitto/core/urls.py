@@ -20,7 +20,9 @@ urlpatterns = [
     path('category/', AllCategoryView.as_view(), name='category_all'),
     path('category/<int:category_id>/',
          CategoriesDetailView.as_view(), name='category_detail'),
+    #     path('posts/<int:post_id>/share/', PostShare.as_view(), name='post_share'),
     path('posts/<int:post_id>/share', post_share, name='post_share'),
+
 ]
 
 

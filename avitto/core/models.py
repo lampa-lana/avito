@@ -87,7 +87,7 @@ class Post(models.Model):
         return '(Пользователь {}: {},  цена: {})'.format(self.author.username, self.post_name, self.price, )
 
     def get_absolute_url(self):
-        return reverse('core:post_detail', kwargs={'post_id': self.pk})
+        return reverse('core:post_detail', kwargs={'pk': self.pk})
 
     @property
     def image_url(self):
@@ -101,3 +101,22 @@ class Post(models.Model):
         verbose_name_plural = 'список объявлений'
         # порядок сортировки с минусом в обратную сторону
         ordering = ['-category', '-date_pub']
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name='пользователь')
+    timestamp = models.DateTimeField(
+        default=timezone.now, verbose_name='время')
+    content = models.TextField(
+        max_length=700, blank=False, verbose_name='содержимое')
+    post = models.ForeignKey(
+        Post, related_name='comments', on_delete=models.CASCADE, verbose_name='объявление')
+
+    def __str__(self):
+        return "{0} : {1}".format(self.user, self.content[:10] + "...")
+
+    class Meta:
+        verbose_name = 'комметарии'
+        verbose_name_plural = 'список комментариев'
+        ordering = ['-timestamp', ]

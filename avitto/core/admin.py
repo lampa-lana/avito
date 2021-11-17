@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.db.models import fields
 from django.utils.safestring import mark_safe
-from .models import Profile, Post, Category
+from .models import Profile, Post, Category, Comment
 from django.utils.text import slugify
 
 # Register your models here.
@@ -93,11 +93,6 @@ class PostAdmin(admin.ModelAdmin):
     publish.short_description = "Опубликовать"
     publish.allowed_permissions = ('change', )
 
-    def save_model(self, obj, form):
-        if form.cleaned_data['slug'] == "":
-            obj.slug = slugify(form.cleaned_data['post_name'])
-        obj.save()
-
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category_name', 'description', )
@@ -106,6 +101,16 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('category_name',)
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user',  'post')
+    list_display_links = ('user', )
+    search_fields = ('user',)
+    list_filter = ('post',)
+    fields = [('user',),
+              ('content', 'post'), ]
+
+
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)

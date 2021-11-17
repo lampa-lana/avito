@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import fields
-from .models import Post
+from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -51,3 +51,13 @@ class EmailPostForm(forms.Form):
     to = forms.EmailField(label='Email получателя',)
     message = forms.CharField(widget=forms.Textarea,
                               required=False, label='Комментарии',)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('content', )
+
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Текст комментария'})
+        }
