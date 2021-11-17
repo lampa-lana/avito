@@ -1,3 +1,4 @@
+from django.http.response import Http404
 from django.utils import timezone
 from django.db.models.aggregates import Sum
 from django.core.mail import send_mail
@@ -63,25 +64,25 @@ class AllPostView(ListView):
 class PostDetailView(DetailView):
     model = Post
     comment_form = CommentForm
-    pk_url_kwarg = "post_id"
+    pk_url_kwarg = "pk"
     template_name = 'core/post_detail.html'
     extra_context = {'page_title': 'Подробнее об объявлении'}
 
-    def get(self, request, post_id, *args, **kwargs):
+    def get(self, request, pk, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         context['posts'] = Post.objects.filter(draft=True)
         context['categories'] = Category.objects.all()
         context['comments'] = Comment.objects.filter(
-            post__pk=post_id).order_by('-timestamp')
+            post__pk=pk).order_by('-timestamp')
         context['comment_form'] = None
         if request.user.is_authenticated:
             context['comment_form'] = self.comment_form
         return self.render_to_response(context)
 
     @method_decorator(login_required)
-    def post(self, request, post_id, *args, **kwargs):
-        post = get_object_or_404(Post, pk=post_id)
+    def post(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
         form = self.comment_form(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
@@ -89,7 +90,7 @@ class PostDetailView(DetailView):
             comment.user = request.user
             comment.post = post
             comment.save()
-            return redirect('core:post_detail', post_id)
+            return redirect('core:post_detail', pk)
         else:
             return render(request=request, template_name=self.template_name, context={'comment_form': form,
                                                                                       'post': post,
@@ -241,3 +242,45 @@ def post_share(request, post_id):
     else:
         form = EmailPostForm()
     return render(request, 'core/share.html', {'post': post, 'form': form, 'sent': sent})
+
+
+class PostShare(View):
+    model = Post
+    form = EmailPostForm()
+    queryset = model.objects.all()
+    template_name = 'core/share.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'post': self.model.objects.all(),
+            'form': self.form
+        }
+        return render(request, 'core/share.html', context)
+
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, id=post_id)
+        sent = False
+        print('ok1')
+
+        if request.method == 'POST':
+            print('ok2')
+
+            form = EmailPostForm(request.POST)
+            if form.is_valid():
+                print('ok3')
+                cd = form.cleaned_data
+                post_url = request.build_absolute_uri(post.get_absolute_url())
+                subject = '{}({})рекомендует Вам посмотреть "{}"'.format(cd['subject'],
+                                                                         cd['from_email'],
+                                                                         post.post_name)
+                message = 'Посмотреть объявление можно "{}" \n\n\' можно по  ссылке {} \n\n\' :{},\n\n\' {}'.format(post.post_name,
+                                                                                                                    post_url,
+                                                                                                                    cd['subject'],
+                                                                                                                    cd['message'],)
+                send_mail(subject, message, cd['from_email'], [cd['to']])
+                sent = True
+
+        else:
+            print('ok4')
+            form = EmailPostForm()
+        return render(request, 'core/share.html', {'post': post, 'form': form, 'sent': sent})

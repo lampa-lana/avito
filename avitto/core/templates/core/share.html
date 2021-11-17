@@ -12,8 +12,8 @@
       <h2>E-mail успешно отправлен </h2>
       <p>{{post.post_name}} Был успешно отправлен {{form.cleaned_data.to}}</p>
       {% else %}
-      <h2>Отправить объявление '{{post.post_name}}' на e-mail</h2>
-      <form method='post' action='{% url 'core:post_share' post.id %}'>
+      <h2>Отправить объявление {{post.post_name}} на e-mail</h2>
+      <form method='post' action='.'>
       
         {% csrf_token %} 
          <p>{{ field.errors }}</p>
