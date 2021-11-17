@@ -10,7 +10,7 @@ app_name = 'core'
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
-    path('posts/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    path('posts/<int:post_id>/', PostDetailView.as_view(), name='post_detail'),
     path('posts/create/', PostCreateView.as_view(), name='post_create'),
     path('posts/all_posts/', AllPostView.as_view(), name='all_posts'),
     path('posts/<int:post_id>/delete/', PostDelete.as_view(), name='post_delete'),

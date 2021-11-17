@@ -86,8 +86,11 @@ class Post(models.Model):
     def __str__(self) -> str:
         return '(Пользователь {}: {},  цена: {})'.format(self.author.username, self.post_name, self.price, )
 
+    # def get_absolute_url(self):
+    #     return reverse('core:post_detail', kwargs={'pk': self.pk})
+
     def get_absolute_url(self):
-        return reverse('core:post_detail', kwargs={'pk': self.pk})
+        return reverse('core:post_detail', args=[str(self.id)])
 
     @property
     def image_url(self):

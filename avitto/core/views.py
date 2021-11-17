@@ -64,25 +64,25 @@ class AllPostView(ListView):
 class PostDetailView(DetailView):
     model = Post
     comment_form = CommentForm
-    pk_url_kwarg = "pk"
+    pk_url_kwarg = "post_id"
     template_name = 'core/post_detail.html'
     extra_context = {'page_title': 'Подробнее об объявлении'}
 
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, post_id, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         context['posts'] = Post.objects.filter(draft=True)
         context['categories'] = Category.objects.all()
         context['comments'] = Comment.objects.filter(
-            post__pk=pk).order_by('-timestamp')
+            post__pk=post_id).order_by('-timestamp')
         context['comment_form'] = None
         if request.user.is_authenticated:
             context['comment_form'] = self.comment_form
         return self.render_to_response(context)
 
     @method_decorator(login_required)
-    def post(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, post_id=post_id)
         form = self.comment_form(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
@@ -90,7 +90,7 @@ class PostDetailView(DetailView):
             comment.user = request.user
             comment.post = post
             comment.save()
-            return redirect('core:post_detail', pk)
+            return redirect('core:post_detail', post_id)
         else:
             return render(request=request, template_name=self.template_name, context={'comment_form': form,
                                                                                       'post': post,
@@ -114,13 +114,13 @@ class PostCreateView(CreateView):
     extra_context = {'page_title': 'Создать объявление'}
 
     @ method_decorator(login_required)
-    def post(self, request, *args, **kwargs):
+    def post(self, request,  *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect(reverse('core:post_detail', kwargs={'post_id': post.id}))
+            return redirect(reverse('core:post_detail', kwargs={'post_id': post.id, }))
         else:
             return render(request, 'core/post_create.html', {
                 'form': form})
@@ -217,31 +217,31 @@ class AllCategoryView(ListView):
 #
 
 
-def post_share(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    sent = False
-    # if request.method == 'GET':
-    #     form = EmailPostForm()
-    if request.method == 'POST':
+# def post_share(request, post_id):
+#     post = get_object_or_404(Post, id=post_id)
+#     sent = False
+#     # if request.method == 'GET':
+#     #     form = EmailPostForm()
+#     if request.method == 'POST':
 
-        # From was submitted
-        form = EmailPostForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = '{}({})рекомендует Вам посмотреть "{}"'.format(cd['subject'],
-                                                                     cd['from_email'],
-                                                                     post.post_name)
-            message = 'Посмотреть"{}" at {} \n\n\' о:{}'.format(post.post_name,
-                                                                post_url,
-                                                                cd['subject'],
-                                                                cd['message'])
-            send_mail(subject, message, cd['from_email'], [cd['to']])
-            sent = True
+#         # From was submitted
+#         form = EmailPostForm(request.POST)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             post_url = request.build_absolute_uri(post.get_absolute_url())
+#             subject = '{}({})рекомендует Вам посмотреть "{}"'.format(cd['subject'],
+#                                                                      cd['from_email'],
+#                                                                      post.post_name)
+#             message = 'Посмотреть"{}" at {} \n\n\' о:{}'.format(post.post_name,
+#                                                                 post_url,
+#                                                                 cd['subject'],
+#                                                                 cd['message'])
+#             send_mail(subject, message, cd['from_email'], [cd['to']])
+#             sent = True
 
-    else:
-        form = EmailPostForm()
-    return render(request, 'core/share.html', {'post': post, 'form': form, 'sent': sent})
+#     else:
+#         form = EmailPostForm()
+#     return render(request, 'core/share.html', {'post': post, 'form': form, 'sent': sent})
 
 
 class PostShare(View):
@@ -273,10 +273,10 @@ class PostShare(View):
                 subject = '{}({})рекомендует Вам посмотреть "{}"'.format(cd['subject'],
                                                                          cd['from_email'],
                                                                          post.post_name)
-                message = 'Посмотреть объявление можно "{}" \n\n\' можно по  ссылке {} \n\n\' :{},\n\n\' {}'.format(post.post_name,
-                                                                                                                    post_url,
-                                                                                                                    cd['subject'],
-                                                                                                                    cd['message'],)
+                message = 'Посмотреть объявление можно "{}" \n\n\' можно по  ссылке {} \n\n\' {}:\n\n\' {}'.format(post.post_name,
+                                                                                                                   post_url,
+                                                                                                                   cd['subject'],
+                                                                                                                   cd['message'],)
                 send_mail(subject, message, cd['from_email'], [cd['to']])
                 sent = True
 
