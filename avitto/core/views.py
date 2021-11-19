@@ -1,8 +1,9 @@
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseRedirect
 from django.utils import timezone
 from django.db.models.aggregates import Sum
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
@@ -14,8 +15,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView, View
-from .models import Post, Category, Profile, Comment
-from .forms import PostForm, EmailPostForm, CommentForm
+from .models import Post, Category, Profile, Comment, Image
+from .forms import PostForm, EmailPostForm, CommentForm, ImageForm
 from django.forms import modelformset_factory
 from avitto.settings import FROM_EMAIL, EMAIL_ADMIN
 
@@ -71,6 +72,8 @@ class PostDetailView(DetailView):
     def get(self, request, post_id, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
+        context['images'] = Image.objects.filter(post_id=post_id)
+        context['images_all'] = Image.objects.all()
         context['posts'] = Post.objects.filter(draft=True)
         context['categories'] = Category.objects.all()
         context['comments'] = Comment.objects.filter(
@@ -82,8 +85,9 @@ class PostDetailView(DetailView):
 
     @method_decorator(login_required)
     def post(self, request, post_id, *args, **kwargs):
-        post = get_object_or_404(Post, post_id=post_id)
+        post = get_object_or_404(Post, id=post_id)
         form = self.comment_form(request.POST)
+
         if form.is_valid():
             comment = form.save(commit=False)
             comment.timestamp = timezone.now()
@@ -95,9 +99,9 @@ class PostDetailView(DetailView):
             return render(request=request, template_name=self.template_name, context={'comment_form': form,
                                                                                       'post': post,
                                                                                       'categories': Category.objects.all(),
+                                                                                      'images': Image.objects.filter(post_id=post_id),
 
                                                                                       })
-
 # def post_detail(request, post_id):
 #     # детали поста
 #     post = get_object_or_404(Post, id=post_id)
@@ -113,17 +117,61 @@ class PostCreateView(CreateView):
     login_url = '/admin/login'
     extra_context = {'page_title': 'Создать объявление'}
 
+    def get(self, request,  *args, **kwargs):
+        ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=3)
+        print('ok1')
+        if request.method == "GET":
+            print('ok2')
+            form = PostForm()
+            formset = ImageFormSet(queryset=Image.objects.none())
+            print('ok2-1')
+            return render(request, self.template_name,  {"form": form, "formset": formset})
+
     @ method_decorator(login_required)
     def post(self, request,  *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect(reverse('core:post_detail', kwargs={'post_id': post.id, }))
+        # form = self.form_class(request.POST, request.FILES)
+        # if form.is_valid():
+        #     post = form.save(commit=False)
+        #     post.author = request.user
+        #     post.save()
+        #     return redirect(reverse('core:post_detail', kwargs={'post_id': post.id, }))
+        # else:
+        #     return render(request, 'core/post_create.html', {
+        #         'form': form})
+        ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=3)
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            formset = ImageFormSet(request.POST, request.FILES,
+                                   queryset=Image.objects.none())
+            print('ok3')
+            if form.is_valid() and formset.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()
+                print('ok4')
+                for form_img in formset.cleaned_data:
+                    print('ok5')
+                    if form_img:
+                        print('ok6')
+                        image = form_img['image']
+                        photo = Image(post=post, image=image)
+                        photo.save()
+                        print('ok6:')
+                # use django messages framework
+                messages.success(request,
+                                 "Yeeew, check it out on the home page!")
+
+                return redirect(reverse('core:post_detail', kwargs={'post_id': post.id, }))
+            else:
+                print('postForm.errors: ', form.errors,
+                      'formset.errors: ', formset.errors)
+                print('ok7')
         else:
-            return render(request, 'core/post_create.html', {
-                'form': form})
+            form = PostForm()
+            formset = ImageFormSet(queryset=Image.objects.none())
+            print('ok8')
+        return render(request, 'core/post_create.html',
+                      {'postForm': form, 'formset': formset})
 
 
 # def post_create(request):
@@ -284,3 +332,53 @@ class PostShare(View):
             print('ok4')
             form = EmailPostForm()
         return render(request, 'core/share.html', {'post': post, 'form': form, 'sent': sent})
+
+
+# def post_create(request, *args, **kwargs):
+#     ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=3)
+#     print('ok1')
+
+#     if request.method == "GET":
+
+#         print('ok2')
+#         form = PostForm()
+#         formset = ImageFormSet(queryset=Image.objects.none())
+#         print('ok2-1')
+#         return render(request, 'core/post_create.html',  {"form": form, "formset": formset})
+
+#     elif request.method == 'POST':
+
+#         form = PostForm(request.POST, request.FILES)
+#         formset = ImageFormSet(request.POST, request.FILES,
+#                                queryset=Image.objects.none())
+#         print('ok3')
+
+#         if form.is_valid() and formset.is_valid():
+
+#             post = form.save(commit=False)
+#             post.author = request.user
+#             post.save()
+#             print('ok4')
+#             for form_img in formset.cleaned_data:
+#                 print('ok5')
+#                 if form_img:
+#                     print('ok6')
+#                     image = form_img['image']
+#                     photo = Image(post=post, image=image)
+#                     photo.save()
+#                     print('ok6')
+#             # use django messages framework
+#             messages.success(request,
+#                              "Yeeew, check it out on the home page!")
+
+#             return redirect(reverse('core:post_detail', kwargs={'post_id': post.id, }))
+#         else:
+#             print('postForm.errors: ', form.errors,
+#                   'formset.errors: ', formset.errors)
+#             print('ok7')
+#     else:
+#         form = PostForm()
+#         formset = ImageFormSet(queryset=Image.objects.none())
+#         print('ok8')
+#     return render(request, 'core/post_create.html',
+#                   {'postForm': form, 'formset': formset})

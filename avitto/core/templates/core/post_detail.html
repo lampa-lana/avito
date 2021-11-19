@@ -21,14 +21,24 @@
     <h2>Категория объявления: {{ post.category }}</h2>
     <ul class="post_card-detail image_card">      
       <li><p> {{ post.description|linebreaks }}</p>
-      <img src="{{ post.image_url }}" alt="{{ post.post_name}}" />
+      <img src="{{ post.image_url }}" alt="{{ post.post_name}}" />      
       <p>Дата публикации: {{ post.date_pub }}</p>
       <p>Дата последнего изменения: {{ post.date_edit }}</p>
       <p>Объявление изменялось {{ post.date_edit|timesince }} назад</p>
-      <p>Стоимость: {{ post.price|currency}} рублей</p>
+      <p>Стоимость: {{ post.price|currency}} рублей</p>     
        <a href="{% url 'core:profile' post.author.id %}">Продавец: {{post.author.username}} </a>
-            </a></li>        
-    </ul>
+            </a>
+     {% if images %}
+     {% for img in images %}
+     <p>{{ img }} <img src="{{ images.image_url  }}" alt="{{ img }}" /></p>
+     {% endfor %}
+     {% endif %}
+   
+      
+          </li>        
+    </ul> 
+    
+    
        <div >
             <h2> Комментарии </h2> 
             {% if comments.all %}

@@ -5,11 +5,16 @@
 {% if user.is_authenticated %}
     <form method="POST" enctype="multipart/form-data" class="post-form">
       {% csrf_token %}
-    
-      {% for field in form %}
+       
+     
+   {% for field in form %}
       <p>{{ field.label }}</p>
       <p>{{ field }}</p>
-      
+      {% endfor %}
+ 
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form.as_p }}
     {% endfor %}
        <button type="submit" class="button">Разместить объявление</button>
     </form>

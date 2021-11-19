@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .validators import validate_date_edit, validate_birth_date
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 
 # Create your models here.
@@ -14,10 +15,6 @@ def user_foto_path(instance, filename):
 
 def user_directory_path(instance, filename):
     return 'user_{0}/posts/{1}'.format(instance.author.id, filename)
-
-
-def upload_gallery_image(instance, filename):
-    return 'images/{0}/gallery/{1}'.format(instance.post.id, filename)
 
 
 class Profile(models.Model):
@@ -123,3 +120,27 @@ class Comment(models.Model):
         verbose_name = 'комметарии'
         verbose_name_plural = 'список комментариев'
         ordering = ['-timestamp', ]
+
+
+def get_image_filename(instance, filename):
+    author = instance.post.author.id
+    name = instance.post.post_name
+    slug = slugify(name)
+    return 'user_{0}/posts/{1}/images{2}'.format(author, name, slug, filename)
+
+
+class Image(models.Model):
+    image = models.ImageField(
+        upload_to=get_image_filename, null=True, blank=True, verbose_name='изображение галереи')
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="post_images", default=None, verbose_name='изображения к объявлению')
+
+    def __str__(self) -> str:
+        return '(Объявление {}: {} )'.format(self.post, self.image)
+
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+        else:
+            return '#'

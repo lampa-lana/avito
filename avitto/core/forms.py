@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import fields
-from .models import Post, Comment
+from .models import Post, Comment, Image
 
 
 class PostForm(forms.ModelForm):
@@ -61,3 +61,11 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'text': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Текст комментария'})
         }
+
+
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label='Фотограции Товара')
+
+    class Meta:
+        model = Image
+        fields = ('image', )

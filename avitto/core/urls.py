@@ -17,11 +17,13 @@ urlpatterns = [
     path('posts/<int:post_id>/delete-success/',
          TemplateView.as_view(template_name='core/delete_success.html'), name='post_delete_success'),
     path('posts/<int:post_id>/edit/', EditView.as_view(), name='post_edit'),
+
     path('category/', AllCategoryView.as_view(), name='category_all'),
     path('category/<int:category_id>/',
          CategoriesDetailView.as_view(), name='category_detail'),
     path('posts/<int:post_id>/share/', PostShare.as_view(), name='post_share'),
-    #     path('posts/<int:post_id>/share', post_share, name='post_share'),
+
+
 
 ]
 

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.db.models import fields
 from django.utils.safestring import mark_safe
-from .models import Profile, Post, Category, Comment
+from .models import Profile, Post, Category, Comment, Image
 from django.utils.text import slugify
 
 # Register your models here.
@@ -35,11 +35,15 @@ class ProfileAdmin(admin.ModelAdmin):
         return mark_safe(f'<img src="{obj.foto.url}" style="max-height: 100px;">')
 
 
-# class ImageLine(admin.TabularInline):
-#     model = Image
+class ImageLine(admin.TabularInline):
+    model = Image
 
 
 class PostAdmin(admin.ModelAdmin):
+
+    inlines = [
+        ImageLine
+    ]
 
     list_display = ('author', 'post_name', 'date_pub',
                     'price', 'category', 'draft', 'slug')
@@ -62,6 +66,7 @@ class PostAdmin(admin.ModelAdmin):
             ('preview', 'image'), ]}],
         ['Даты публикаций', {'fields': [
             ('date_pub', 'date_edit', 'draft'), ]}],
+
     ]
 
     def preview(self, obj):
